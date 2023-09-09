@@ -16,8 +16,8 @@ export default function Home() {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
         <Script type="text/javascript" async defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"/>
-        <Script type="text/javascript" async defer src="./fingerprint.js"/>
-        <Script type="text/javascript" async defer src="./script.js"/>
+
+      
 
         <div id="main">
             <h2>Войти</h2>

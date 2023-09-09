@@ -32,6 +32,10 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
+function delete_cookie(name) {
+    document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  }
+
 async function getNewTokens(reftoken){
     if (String(reftoken) == "undefined") return false;
     if (!checkAccess(reftoken)) return false;
@@ -67,93 +71,6 @@ function moveToPage(page_url){
 }
 
 var api = "http://192.168.0.105:8080"
-export async function register() {
-    var nick = document.getElementById("nick").value;
-    var url = "https://api.minetools.eu/uuid/" + nick;
-    var data = await axios.get(url);
-    var obj = data.data;
-    var username = obj["id"];
-    var password = document.getElementById("password").value;
-    if (username != "" & password != ""){
-        const fpPromise = FingerprintJS.load()
-            
-        const fp = await fpPromise
-        const result = await fp.get()
-                
-        var fingerprint = result.visitorId
-
-        var url = api + "/register"
-        var data = await axios.post(url, {
-            "username": username,
-            "password": password,
-            "fingerprint": fingerprint
-            }, {headers: {"Content-type": "application/json; charset=UTF-8"}}
-        );
-        var obj = data.data;
-        if (obj["status"] == "success"){
-            setCookie("accessToken", obj["accessToken"]);
-            setCookie("refreshToken", obj["refreshToken"]);
-            setTimeout(moveToPage("/"), 1000); 
-        }
-        else{
-            if (obj["message"] == "this user already exists"){
-                const usr = document.querySelector("#nickSmall");
-                usr.textContent = "Имя пользователя уже существует";
-            }
-        }
-            
-        
-    }
-}
-
-export async function loginUsername() {
-    var nick = document.getElementById("nick").value;
-    var url = "https://api.minetools.eu/uuid/" + nick;
-    var data = await axios.get(url);
-    var obj = data.data;
-    var username = obj["id"];
-    var password = document.getElementById("password").value;
-    if (username != "" & password != ""){
-
-        const fpPromise = FingerprintJS.load()
-            
-        const fp = await fpPromise
-        const result = await fp.get()
-                
-        var fingerprint = result.visitorId
-
-        var url = api + "/loginUsername"
-        var data = await axios.post(url, {
-            "username": username,
-            "password": password,
-            "fingerprint": fingerprint
-            }, {headers: {"Content-type": "application/json; charset=UTF-8"}}
-        );
-        var obj = data.data;
-        if (obj["status"] == "success"){
-            setCookie("accessToken", obj["accessToken"]);
-            setCookie("refreshToken", obj["refreshToken"]);
-            setTimeout(moveToPage("/"), 1000); 
-        }
-        else{
-            if (obj["message"] == "this user already exists"){
-                const usr = document.querySelector("#nickSmall");
-                usr.textContent = "Имя пользователя уже существует";
-            }
-            if (obj["message"] == "user not found"){
-                const usr = document.querySelector("#nickSmall");
-                usr.textContent = "Имя пользователя не найдено";
-            }
-            if (obj["message"] == "wrong password"){
-                const usr = document.querySelector("#passwordSmall");
-                usr.textContent = "Не правильный пароль";
-            }
-        }
-            
-        
-    }
-}
-
 export async function login() {
     if (String(getCookie("accessToken")) != "undefined"){
         if (checkAccess(String(getCookie("accessToken")))){
@@ -161,7 +78,7 @@ export async function login() {
             
             const fp = await fpPromise
             const result = await fp.get()
-                    
+              
             var fingerprint = result.visitorId
 
             var url = api + "/login"
@@ -172,15 +89,27 @@ export async function login() {
             );
             var obj = data.data;
             if (obj["status"] == "success"){
-                setTimeout(moveToPage("/"), 1000);        
+
+                
+
+                var url = "https://api.minetools.eu/profile/" + obj["username"];
+                var data = await axios.get(url);
+                var objd = data.data;
+                
+
+                document.title = objd["decoded"]["profileName"] + " · личный кабнет";
+                var link = document.querySelector("link[rel~='icon']");
+                link.href = "https://crafatar.com/avatars/" + obj["username"] + "?size=46&overlay";
+                console.log("logged!");
             }
+            
             else{
                 if (obj["message"] == "invalid refresh token"){
-                    console.log("invalid refresh token");
+                    moveToPage("/login/");
                 }
                 if (obj["message"] == "acces token overdated"){
                     var res = await getNewTokens(String(getCookie("refreshToken")));
-                    if (!res) console.log("to login page");
+                    if (!res) moveToPage("/login/");
                     else{
                         setTimeout(login(), 1000);
                     }          
@@ -188,17 +117,72 @@ export async function login() {
             }      
         }else{
             var res = await getNewTokens(String(getCookie("refreshToken")));
-            if (!res) console.log("to login page");
+            if (!res) moveToPage("/login/");
             else{
                 setTimeout(login(), 1000);
             }
         }
     }else{
         var res = await getNewTokens(String(getCookie("refreshToken")));
-        if (!res) console.log("to login page");
+        if (!res) moveToPage("/login/");
         else{
             setTimeout(login(), 1000);
         } 
     }
 }
 
+export async function logout() {
+    if (String(getCookie("accessToken")) != "undefined"){
+        if (checkAccess(String(getCookie("accessToken")))){
+            const fpPromise = FingerprintJS.load()
+            
+            const fp = await fpPromise
+            const result = await fp.get()
+                    
+            var fingerprint = result.visitorId
+            console.log(fingerprint);
+            var url = api + "/logout"
+            var data = await axios.post(url, {
+                "fingerprint": fingerprint
+                }, {headers: {"Content-type": "application/json; charset=UTF-8", 
+                "Authorization": "Bearer " + getCookie("accessToken")}}
+            );
+            var obj = data.data;
+            console.log(obj);
+            if (obj["status"] == "success"){
+                delete_cookie("accessToken");
+                delete_cookie("refreshToken");
+                moveToPage("/");
+                console.log("logged out!");
+            }
+            
+            else{
+                if (obj["message"] == "invalid refresh token"){
+                    moveToPage("/login/");
+                }
+                if (obj["message"] == "acces token overdated"){
+                    var res = await getNewTokens(String(getCookie("refreshToken")));
+                    if (!res) moveToPage("/login/");
+                    else{
+                        setTimeout(login(), 1000);
+                    }          
+                }
+            }      
+        }else{
+            var res = await getNewTokens(String(getCookie("refreshToken")));
+            if (!res) moveToPage("/login/");
+            else{
+                setTimeout(login(), 1000);
+            }
+        }
+    }else{
+        var res = await getNewTokens(String(getCookie("refreshToken")));
+        if (!res) moveToPage("/login/");
+        else{
+            setTimeout(login(), 1000);
+        } 
+    }
+}
+
+function start(){login()};
+start();

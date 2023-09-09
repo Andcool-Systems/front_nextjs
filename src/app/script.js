@@ -1,3 +1,5 @@
+import FingerprintJS from '@fingerprintjs/fingerprintjs'
+
 function setCookie(c_name,value,exdays)
 {
     var exdate=new Date();
@@ -19,7 +21,7 @@ function parseJwt (token) {
 }
 function checkAccess(token) {
     var secondsSinceEpoch = Date.now() / 1000
-    res = parseJwt(token);
+    var res = parseJwt(token);
     
     return parseInt(res["ExpiresAt"]) > secondsSinceEpoch;
 }
@@ -33,7 +35,12 @@ function getCookie(name) {
 async function getNewTokens(reftoken){
     if (String(reftoken) == "undefined") return false;
     if (!checkAccess(reftoken)) return false;
-    var fingerprint = fp.get()
+    const fpPromise = FingerprintJS.load()
+            
+    const fp = await fpPromise
+    const result = await fp.get()
+              
+    var fingerprint = result.visitorId
 
     var url = api + "/refreshTokens"
     var data = await axios.post(url, {
@@ -60,10 +67,15 @@ function moveToPage(page_url){
 }
 
 var api = "http://192.168.0.105:8080"
-async function login() {
+export async function login() {
     if (String(getCookie("accessToken")) != "undefined"){
         if (checkAccess(String(getCookie("accessToken")))){
-            var fingerprint = fp.get()
+            const fpPromise = FingerprintJS.load()
+            
+            const fp = await fpPromise
+            const result = await fp.get()
+                    
+            var fingerprint = result.visitorId
 
             var url = api + "/login"
             var data = await axios.post(url, {
@@ -117,5 +129,8 @@ async function login() {
         } 
     }
 }
-login();
+
+function start(){login()};
+start();
+
 

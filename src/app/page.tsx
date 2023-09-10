@@ -1,11 +1,13 @@
 "use client";
-import styles from './page.module.css'
-import Script from "next/script"
-import "./script"
+import { login } from "./script.tsx"
+import { useEffect } from 'react';
 
 
 export default function Home() {
   "use client";
+  useEffect(() => {
+    login();
+  })
   return (
     <>
 
@@ -15,7 +17,6 @@ export default function Home() {
     <link rel="stylesheet" href="res/main/style.css"></link>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
-    <Script type="text/javascript" async defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"/>
 
 
       <body>

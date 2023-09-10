@@ -1,12 +1,11 @@
 import FingerprintJS from '@fingerprintjs/fingerprintjs'
+import axios from 'axios';
+import { getCookies, setCookie, deleteCookie, getCookie } from 'cookies-next';
+import { moveToPage } from "./pages"
 
-function setCookie(c_name,value,exdays)
+function setCookiee(c_name, value)
 {
-    var exdate=new Date();
-    exdate.setDate(exdate.getDate() + exdays);
-    var c_value=escape(value) + ((exdays==null)
-                                 ? "" : "; expires="+exdate.toUTCString())
-                                + "; path=/";
+    var c_value=escape(value) + "; path=/";
     document.cookie=c_name + "=" + c_value;
 }
 
@@ -26,10 +25,8 @@ function checkAccess(token) {
     return parseInt(res["ExpiresAt"]) > secondsSinceEpoch;
 }
 
-function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
+function getCookiee(name: string) {
+    return getCookie(name);
 }
 
 async function getNewTokens(reftoken){
@@ -51,8 +48,8 @@ async function getNewTokens(reftoken){
     var obj = data.data;
     
     if (obj["status"] == "success"){
-        setCookie("accessToken", obj["accessToken"]);
-        setCookie("refreshToken", obj["refreshToken"]);
+        setCookiee("accessToken", obj["accessToken"]);
+        setCookiee("refreshToken", obj["refreshToken"]);
         return true;       
     }
     else{
@@ -60,16 +57,12 @@ async function getNewTokens(reftoken){
     }
         
 }
-function moveToPage(page_url){
-    const protocol = window.location.protocol;
-    const host = window.location.host;
-    window.location.replace(protocol + "//" + host + page_url);
-}
+
 
 var api = "http://192.168.0.105:8080"
 export async function login() {
-    if (String(getCookie("accessToken")) != "undefined"){
-        if (checkAccess(String(getCookie("accessToken")))){
+    if (String(getCookiee("accessToken")) != "undefined"){
+        if (checkAccess(String(getCookiee("accessToken")))){
             const fpPromise = FingerprintJS.load()
             
             const fp = await fpPromise
@@ -81,7 +74,7 @@ export async function login() {
             var data = await axios.post(url, {
                 "fingerprint": fingerprint
                 }, {headers: {"Content-type": "application/json; charset=UTF-8", 
-                "Authorization": "Bearer " + getCookie("accessToken")}}
+                "Authorization": "Bearer " + getCookiee("accessToken")}}
             );
             var obj = data.data;
             if (obj["status"] == "success"){
@@ -95,10 +88,11 @@ export async function login() {
                 var data = await axios.get(url);
                 var objd = data.data;
                 const cardname = document.querySelector("#card-name");
-                const cardnameid = document.getElementById("card-name");
+                const cardnameid = document.getElementById("card-name") as HTMLAnchorElement | null;
 			    cardname.textContent = objd["decoded"]["profileName"];
                 cardnameid.href = "/me/";
-                document.getElementById("profile-img").src = "https://crafatar.com/avatars/" + obj["username"] + "?size=46&overlay";
+                var avatar = document.getElementById("profile-img") as HTMLImageElement | null
+                avatar.src = "https://crafatar.com/avatars/" + obj["username"] + "?size=46&overlay";
                 console.log("logged!");
             }
             
@@ -107,30 +101,27 @@ export async function login() {
                     moveToPage("/login/");
                 }
                 if (obj["message"] == "acces token overdated"){
-                    var res = await getNewTokens(String(getCookie("refreshToken")));
+                    var res = await getNewTokens(String(getCookiee("refreshToken")));
                     if (!res) moveToPage("/login/");
                     else{
-                        setTimeout(login(), 1000);
+                        setTimeout(() => login(), 1000);
                     }          
                 }
             }      
         }else{
-            var res = await getNewTokens(String(getCookie("refreshToken")));
+            var res = await getNewTokens(String(getCookiee("refreshToken")));
             if (!res) moveToPage("/login/");
             else{
-                setTimeout(login(), 1000);
+                setTimeout(() => login(), 1000);
             }
         }
     }else{
-        var res = await getNewTokens(String(getCookie("refreshToken")));
+        var res = await getNewTokens(String(getCookiee("refreshToken")));
         if (!res) console.log("to login page");
         else{
-            setTimeout(login(), 1000);
+            setTimeout(() => login(), 1000);
         } 
     }
 }
-
-function start(){login()};
-start();
 
 

@@ -1,12 +1,12 @@
 import FingerprintJS from '@fingerprintjs/fingerprintjs'
+import axios from 'axios';
+import { getCookies, setCookie, deleteCookie, getCookie } from 'cookies-next';
+import { useRouter } from 'next/router'
+import { moveToPage } from "./pages"
 
-function setCookie(c_name,value,exdays)
+function setCookiee(c_name, value)
 {
-    var exdate=new Date();
-    exdate.setDate(exdate.getDate() + exdays);
-    var c_value=escape(value) + ((exdays==null)
-                                 ? "" : "; expires="+exdate.toUTCString())
-                                + "; path=/";
+    var c_value=escape(value) + "; path=/";
     document.cookie=c_name + "=" + c_value;
 }
 
@@ -26,10 +26,8 @@ function checkAccess(token) {
     return parseInt(res["ExpiresAt"]) > secondsSinceEpoch;
 }
 
-function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
+function getCookiee(name: string) {
+    return getCookie(name);
 }
 
 async function getNewTokens(reftoken){
@@ -60,21 +58,17 @@ async function getNewTokens(reftoken){
     }
         
 }
-function moveToPage(page_url){
-    const protocol = window.location.protocol;
-    const host = window.location.host;
-    window.location.replace(protocol + "//" + host + page_url);
-}
+
 
 var api = "http://192.168.0.105:8080"
 export async function register() {
-    var nick = document.getElementById("nick").value;
-    var url = "https://api.minetools.eu/uuid/" + nick;
+    var nick = document.getElementById("nick") as HTMLInputElement | null;
+    var url = "https://api.minetools.eu/uuid/" + nick.value;
     var data = await axios.get(url);
     var obj = data.data;
     var username = obj["id"];
-    var password = document.getElementById("password").value;
-    if (username != "" & password != ""){
+    var password = document.getElementById("password") as HTMLInputElement | null;
+    if (username != "" && password.value != ""){
         const fpPromise = FingerprintJS.load()
             
         const fp = await fpPromise
@@ -85,7 +79,7 @@ export async function register() {
         var url = api + "/register"
         var data = await axios.post(url, {
             "username": username,
-            "password": password,
+            "password": password.value,
             "fingerprint": fingerprint
             }, {headers: {"Content-type": "application/json; charset=UTF-8"}}
         );
@@ -93,7 +87,7 @@ export async function register() {
         if (obj["status"] == "success"){
             setCookie("accessToken", obj["accessToken"]);
             setCookie("refreshToken", obj["refreshToken"]);
-            setTimeout(moveToPage("/"), 1000); 
+            setTimeout(() => moveToPage("/"), 1000); 
         }
         else{
             if (obj["message"] == "this user already exists"){
@@ -107,13 +101,13 @@ export async function register() {
 }
 
 export async function loginUsername() {
-    var nick = document.getElementById("nick").value;
-    var url = "https://api.minetools.eu/uuid/" + nick;
+    var nick = document.getElementById("nick") as HTMLInputElement | null;
+    var url = "https://api.minetools.eu/uuid/" + nick.value;
     var data = await axios.get(url);
     var obj = data.data;
     var username = obj["id"];
-    var password = document.getElementById("password").value;
-    if (username != "" & password != ""){
+    var password = document.getElementById("password") as HTMLInputElement | null;
+    if (username != "" && password.value != ""){
 
         const fpPromise = FingerprintJS.load()
             
@@ -125,15 +119,16 @@ export async function loginUsername() {
         var url = api + "/loginUsername"
         var data = await axios.post(url, {
             "username": username,
-            "password": password,
+            "password": password.value,
             "fingerprint": fingerprint
             }, {headers: {"Content-type": "application/json; charset=UTF-8"}}
         );
         var obj = data.data;
+        console.log(obj);
         if (obj["status"] == "success"){
-            setCookie("accessToken", obj["accessToken"]);
-            setCookie("refreshToken", obj["refreshToken"]);
-            setTimeout(moveToPage("/"), 1000); 
+            setCookiee("accessToken", obj["accessToken"]);
+            setCookiee("refreshToken", obj["refreshToken"]);
+            setTimeout(() => moveToPage("/"), 1000); 
         }
         else{
             if (obj["message"] == "this user already exists"){
@@ -155,6 +150,7 @@ export async function loginUsername() {
 }
 
 export async function login() {
+    console.log("trying to login with access token");
     if (String(getCookie("accessToken")) != "undefined"){
         if (checkAccess(String(getCookie("accessToken")))){
             const fpPromise = FingerprintJS.load()
@@ -172,7 +168,7 @@ export async function login() {
             );
             var obj = data.data;
             if (obj["status"] == "success"){
-                setTimeout(moveToPage("/"), 1000);        
+                setTimeout(() => moveToPage("/"), 1000);        
             }
             else{
                 if (obj["message"] == "invalid refresh token"){
@@ -182,7 +178,7 @@ export async function login() {
                     var res = await getNewTokens(String(getCookie("refreshToken")));
                     if (!res) console.log("to login page");
                     else{
-                        setTimeout(login(), 1000);
+                        setTimeout(() => login(), 1000);
                     }          
                 }
             }      
@@ -190,14 +186,14 @@ export async function login() {
             var res = await getNewTokens(String(getCookie("refreshToken")));
             if (!res) console.log("to login page");
             else{
-                setTimeout(login(), 1000);
+                setTimeout(() =>login(), 1000);
             }
         }
     }else{
         var res = await getNewTokens(String(getCookie("refreshToken")));
         if (!res) console.log("to login page");
         else{
-            setTimeout(login(), 1000);
+            setTimeout(() => login(), 1000);
         } 
     }
 }

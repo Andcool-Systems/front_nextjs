@@ -1,8 +1,11 @@
 var loginFlag = false;
+import axios from 'axios';
+
 export function updpass(){
-    var username = document.getElementById("password").value;
+
+    var username = document.getElementById("password") as HTMLInputElement | null;
         
-    if (username != ""){
+    if (username.value != ""){
         const usr = document.querySelector("#passwordSmall");
         usr.textContent = "";
     }else{
@@ -12,8 +15,8 @@ export function updpass(){
 }
     
 export function updnick(){
-    var nick = document.getElementById("nick").value;
-    if (nick != ""){
+    var nick = document.getElementById("nick") as HTMLInputElement | null;
+    if (nick.value != ""){
         const nickn = document.querySelector("#nickSmall");
         nickn.textContent = "";
     }else{
@@ -31,8 +34,8 @@ export function updnick(){
 }
 
 async function parseNick(){
-    var nick = document.getElementById("nick").value;
-    var url = "https://api.minetools.eu/uuid/" + nick;
+    var nick = document.getElementById("nick") as HTMLInputElement | null;
+    var url = "https://api.minetools.eu/uuid/" + nick.value;
     var data = await axios.get(url);
     var obj = data.data;
     const nickid = document.querySelector("#nickSmallid");

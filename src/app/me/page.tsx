@@ -1,6 +1,6 @@
 "use client";
 import Script from "next/script"
-import {login, logout} from "./script.js"
+import {login, logout} from "./script.tsx"
 
 export default function Home() {
     

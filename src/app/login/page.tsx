@@ -1,5 +1,4 @@
 "use client";
-import styles from './page.module.css'
 import Script from "next/script"
 import {register, loginUsername, login } from "./script.tsx"
 import {updpass, updnick} from "./events"

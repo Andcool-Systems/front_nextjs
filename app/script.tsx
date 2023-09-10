@@ -1,7 +1,7 @@
 import FingerprintJS from '@fingerprintjs/fingerprintjs'
 import axios from 'axios';
 import { getCookies, setCookie, deleteCookie, getCookie } from 'cookies-next';
-import { moveToPage } from "./pages"
+import { moveToPage } from "./pages.js"
 
 function setCookiee(c_name, value)
 {
@@ -78,10 +78,21 @@ export async function login() {
             );
             var obj = data.data;
             if (obj["status"] == "success"){
+                //var nodata = document.getElementById("no-data");
+				//var card = document.getElementById("card");
+				//nodata.style.display = "none";     
+                //card.style.display = "flex";
+                
+
                 var url = "https://api.minetools.eu/profile/" + obj["username"];
                 var data = await axios.get(url);
                 var objd = data.data;
-            
+                const cardname = document.querySelector("#card-name");
+                const cardnameid = document.getElementById("card-name") as HTMLAnchorElement | null;
+			    cardname.textContent = objd["decoded"]["profileName"];
+                cardnameid.href = "/me/";
+                var avatar = document.getElementById("profile-img") as HTMLImageElement | null
+                avatar.src = "https://crafatar.com/avatars/" + obj["username"] + "?size=46&overlay";
                 console.log("logged!");
             }
             
@@ -97,39 +108,6 @@ export async function login() {
                     }          
                 }
             }      
-        }else{
-            var res = await getNewTokens(String(getCookiee("refreshToken")));
-            if (!res) moveToPage("/login/");
-            else{
-                setTimeout(() => login(), 1000);
-            }
-        }
-    }else{
-        var res = await getNewTokens(String(getCookiee("refreshToken")));
-        if (!res) console.log("to login page");
-        else{
-            setTimeout(() => login(), 1000);
-        } 
-    }
-}
-
-export async function loadVotes(){
-    if (String(getCookiee("accessToken")) != "undefined"){
-        if (checkAccess(String(getCookiee("accessToken")))){
-            const fpPromise = FingerprintJS.load()
-            
-            const fp = await fpPromise
-            const result = await fp.get()
-                    
-            var fingerprint = result.visitorId
-
-            var url = api + "/votes"
-            var data = await axios.get(url, {headers: {"Content-type": "application/json; charset=UTF-8", 
-                "Authorization": "Bearer " + getCookiee("accessToken"),
-                "fingerprint": fingerprint}}
-            );
-            var obj = data.data;
-            return obj;
         }else{
             var res = await getNewTokens(String(getCookiee("refreshToken")));
             if (!res) moveToPage("/login/");

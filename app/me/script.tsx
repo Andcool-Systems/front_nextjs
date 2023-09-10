@@ -1,7 +1,7 @@
 import FingerprintJS from '@fingerprintjs/fingerprintjs'
 import axios from 'axios';
 import { getCookies, setCookie, deleteCookie, getCookie } from 'cookies-next';
-import { moveToPage } from "./pages"
+import { moveToPage } from "./pages.js"
 
 function setCookiee(c_name, value)
 {

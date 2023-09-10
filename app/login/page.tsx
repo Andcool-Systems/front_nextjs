@@ -1,8 +1,7 @@
 "use client";
-import styles from './page.module.css'
 import Script from "next/script"
 import {register, loginUsername, login } from "./script.tsx"
-import {updpass, updnick} from "./events"
+import {updpass, updnick} from "./events.tsx"
 
 
 export default function Home() {
@@ -15,8 +14,6 @@ export default function Home() {
         <link rel="stylesheet" href="res/login/style.css"></link>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
-        <Script type="text/javascript" async defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"/>
-
       
 
         <div id="main">

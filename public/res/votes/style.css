@@ -1,0 +1,19 @@
+body{
+    background-color: #222831;
+    font-family: 'Manrope', sans-serif;
+}
+ul{
+    display:flex;
+    list-style-type: none;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+li{
+    width: 30%;
+    background-color: #393E46;
+    color: #EEEEEE;
+    margin: 0.5%;
+    padding: 0.4%;
+
+}

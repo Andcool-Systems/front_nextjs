@@ -1,4 +1,3 @@
-import FingerprintJS from '@fingerprintjs/fingerprintjs'
 import axios from 'axios';
 import { getCookies, setCookie, deleteCookie, getCookie } from 'cookies-next';
 import { moveToPage } from "./pages"
@@ -36,17 +35,10 @@ function delete_cookie(name) {
 async function getNewTokens(reftoken){
     if (String(reftoken) == "undefined") return false;
     if (!checkAccess(reftoken)) return false;
-    const fpPromise = FingerprintJS.load()
-            
-    const fp = await fpPromise
-    const result = await fp.get()
-              
-    var fingerprint = result.visitorId
 
     var url = api + "/refreshTokens"
     var data = await axios.post(url, {
-        "refreshToken": reftoken,
-        "fingerprint": fingerprint
+        "refreshToken": reftoken
         }, {headers: {"Content-type": "application/json; charset=UTF-8"}}
     );
     var obj = data.data;
@@ -67,17 +59,10 @@ var api = "http://192.168.0.105:8080"
 export async function login() {
     if (String(getCookiee("accessToken")) != "undefined"){
         if (checkAccess(String(getCookiee("accessToken")))){
-            const fpPromise = FingerprintJS.load()
-            
-            const fp = await fpPromise
-            const result = await fp.get()
-              
-            var fingerprint = result.visitorId
 
             var url = api + "/login"
-            var data = await axios.post(url, {
-                "fingerprint": fingerprint
-                }, {headers: {"Content-type": "application/json; charset=UTF-8", 
+            var data = await axios.post(url, {},
+                {headers: {"Content-type": "application/json; charset=UTF-8", 
                 "Authorization": "Bearer " + getCookiee("accessToken")}}
             );
             var obj = data.data;
@@ -91,7 +76,12 @@ export async function login() {
                 
 
                 document.title = objd["decoded"]["profileName"] + " · личный кабнет";
-                var link = document.querySelector("link[rel~='icon']") as HTMLAnchorElement | null;
+                let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement | null;
+                if (!link) {
+                    link = document.createElement('link') as HTMLLinkElement | null;
+                    link.rel = 'icon';
+                    document.head.appendChild(link);
+                }
                 link.href = "https://crafatar.com/avatars/" + obj["username"] + "?size=46&overlay";
                 console.log("logged!");
             }
@@ -127,17 +117,10 @@ export async function login() {
 export async function logout() {
     if (String(getCookiee("accessToken")) != "undefined"){
         if (checkAccess(String(getCookiee("accessToken")))){
-            const fpPromise = FingerprintJS.load()
-            
-            const fp = await fpPromise
-            const result = await fp.get()
-                    
-            var fingerprint = result.visitorId
-            console.log(fingerprint);
+
             var url = api + "/logout"
-            var data = await axios.post(url, {
-                "fingerprint": fingerprint
-                }, {headers: {"Content-type": "application/json; charset=UTF-8", 
+            var data = await axios.post(url, {},
+                {headers: {"Content-type": "application/json; charset=UTF-8", 
                 "Authorization": "Bearer " + getCookiee("accessToken")}}
             );
             var obj = data.data;

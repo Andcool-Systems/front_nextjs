@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect } from 'react';
 import axios from 'axios';
 import { loadVotes } from "./login.tsx"
@@ -39,5 +40,19 @@ function Main(){
 		  </p>
 		</li>
 	  );
-	return <ul>{listItems}</ul>;
+    return (
+    <>
+
+    <title>oauth test</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@800&family=Manrope:wght@600&display=swap" rel="stylesheet"></link>
+    <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+    <link rel="stylesheet" href="res/votes/style.css"></link>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+      <body>
+        <ul id="votes">{listItems}</ul>
+      </body>
+    </>
+    )
+
 }

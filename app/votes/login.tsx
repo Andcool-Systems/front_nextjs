@@ -1,4 +1,3 @@
-import FingerprintJS from '@fingerprintjs/fingerprintjs'
 import axios from 'axios';
 import { getCookies, setCookie, deleteCookie, getCookie } from 'cookies-next';
 import { moveToPage } from "./pages"
@@ -32,17 +31,10 @@ function getCookiee(name: string) {
 async function getNewTokens(reftoken){
     if (String(reftoken) == "undefined") return false;
     if (!checkAccess(reftoken)) return false;
-    const fpPromise = FingerprintJS.load()
-            
-    const fp = await fpPromise
-    const result = await fp.get()
-              
-    var fingerprint = result.visitorId
 
     var url = api + "/refreshTokens"
     var data = await axios.post(url, {
-        "refreshToken": reftoken,
-        "fingerprint": fingerprint
+        "refreshToken": reftoken
         }, {headers: {"Content-type": "application/json; charset=UTF-8"}}
     );
     var obj = data.data;
@@ -63,17 +55,9 @@ var api = "http://192.168.0.105:8080"
 export async function login() {
     if (String(getCookiee("accessToken")) != "undefined"){
         if (checkAccess(String(getCookiee("accessToken")))){
-            const fpPromise = FingerprintJS.load()
-            
-            const fp = await fpPromise
-            const result = await fp.get()
-                    
-            var fingerprint = result.visitorId
 
             var url = api + "/login"
-            var data = await axios.post(url, {
-                "fingerprint": fingerprint
-                }, {headers: {"Content-type": "application/json; charset=UTF-8", 
+            var data = await axios.post(url, {}, {headers: {"Content-type": "application/json; charset=UTF-8", 
                 "Authorization": "Bearer " + getCookiee("accessToken")}}
             );
             var obj = data.data;
@@ -116,17 +100,11 @@ export async function login() {
 export async function loadVotes(){
     if (String(getCookiee("accessToken")) != "undefined"){
         if (checkAccess(String(getCookiee("accessToken")))){
-            const fpPromise = FingerprintJS.load()
-            
-            const fp = await fpPromise
-            const result = await fp.get()
-                    
-            var fingerprint = result.visitorId
 
             var url = api + "/votes"
             var data = await axios.get(url, {headers: {"Content-type": "application/json; charset=UTF-8", 
-                "Authorization": "Bearer " + getCookiee("accessToken"),
-                "fingerprint": fingerprint}}
+                "Authorization": "Bearer " + getCookiee("accessToken")
+                }}
             );
             var obj = data.data;
             return obj;

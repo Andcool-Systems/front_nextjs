@@ -1,4 +1,3 @@
-import FingerprintJS from '@fingerprintjs/fingerprintjs'
 import axios from 'axios';
 import { getCookies, setCookie, deleteCookie, getCookie } from 'cookies-next';
 import { useRouter } from 'next/router'
@@ -33,17 +32,10 @@ function getCookiee(name: string) {
 async function getNewTokens(reftoken){
     if (String(reftoken) == "undefined") return false;
     if (!checkAccess(reftoken)) return false;
-    const fpPromise = FingerprintJS.load()
-            
-    const fp = await fpPromise
-    const result = await fp.get()
-              
-    var fingerprint = result.visitorId
 
     var url = api + "/refreshTokens"
     var data = await axios.post(url, {
-        "refreshToken": reftoken,
-        "fingerprint": fingerprint
+        "refreshToken": reftoken
         }, {headers: {"Content-type": "application/json; charset=UTF-8"}}
     );
     var obj = data.data;
@@ -69,18 +61,11 @@ export async function register() {
     var username = obj["id"];
     var password = document.getElementById("password") as HTMLInputElement | null;
     if (username != "" && password.value != ""){
-        const fpPromise = FingerprintJS.load()
-            
-        const fp = await fpPromise
-        const result = await fp.get()
-                
-        var fingerprint = result.visitorId
 
         var url = api + "/register"
         var data = await axios.post(url, {
             "username": username,
-            "password": password.value,
-            "fingerprint": fingerprint
+            "password": password.value
             }, {headers: {"Content-type": "application/json; charset=UTF-8"}}
         );
         var obj = data.data;
@@ -109,18 +94,10 @@ export async function loginUsername() {
     var password = document.getElementById("password") as HTMLInputElement | null;
     if (username != "" && password.value != ""){
 
-        const fpPromise = FingerprintJS.load()
-            
-        const fp = await fpPromise
-        const result = await fp.get()
-                
-        var fingerprint = result.visitorId
-
         var url = api + "/loginUsername"
         var data = await axios.post(url, {
             "username": username,
-            "password": password.value,
-            "fingerprint": fingerprint
+            "password": password.value
             }, {headers: {"Content-type": "application/json; charset=UTF-8"}}
         );
         var obj = data.data;
@@ -153,17 +130,10 @@ export async function login() {
     console.log("trying to login with access token");
     if (String(getCookie("accessToken")) != "undefined"){
         if (checkAccess(String(getCookie("accessToken")))){
-            const fpPromise = FingerprintJS.load()
-            
-            const fp = await fpPromise
-            const result = await fp.get()
-                    
-            var fingerprint = result.visitorId
 
             var url = api + "/login"
-            var data = await axios.post(url, {
-                "fingerprint": fingerprint
-                }, {headers: {"Content-type": "application/json; charset=UTF-8", 
+            var data = await axios.post(url, {},
+                {headers: {"Content-type": "application/json; charset=UTF-8", 
                 "Authorization": "Bearer " + getCookie("accessToken")}}
             );
             var obj = data.data;

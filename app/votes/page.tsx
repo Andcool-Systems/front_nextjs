@@ -9,13 +9,10 @@ import {
   QueryClientProvider,
   useQuery,
 } from 'react-query';
+import Link from 'next/link';
+//import { useSearchParams } from 'next/navigation'
 
 const queryClient = new QueryClient();
-
-async function fetchVotes(){
-	const data = await loadVotes();
-	return data;
-}
 
 export default function Home() {
 
@@ -27,17 +24,23 @@ export default function Home() {
 }
 
 function Main(){
-	const { data, isLoading, isError} = useQuery('votes', fetchVotes);
+	//const searchParams = useSearchParams();
+	//console.log(searchParams.get("aboba"));
+	const { data, isLoading, isError} = useQuery('votes', loadVotes);
 	if (isLoading) return <h1>Загрузка...</h1>
 	if (isError) return <h1>Ошибка...</h1>
 	if (!data) return <h1>Нет данных...</h1>
-	const listItems = data.map(person =>
-		<li key={person.id}>
-		  <p>
-			<b>{person.name}</b>
-			  {' ' + person.profession + ' '}
-			  known for {person.accomplishment}
-		  </p>
+	const listItems = data.map(vote =>
+		<li key={vote.id}>
+			<div id="progress-votes">
+				<progress id="progress"
+						max="100" value={vote.expires}>
+				</progress>
+			</div>
+			<div id="main-votes">
+				<Link id="link-head" href={{ pathname: '/votes/vote', query: { "id": vote.id } }}><h2><b>{vote.name}</b><br/></h2></Link>
+				<p>{vote.info}</p>
+			</div>
 		</li>
 	  );
     return (
@@ -45,9 +48,7 @@ function Main(){
 
     <title>oauth test</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@800&family=Manrope:wght@600&display=swap" rel="stylesheet"></link>
-    <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
     <link rel="stylesheet" href="res/votes/style.css"></link>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
       <body>
         <ul id="votes">{listItems}</ul>

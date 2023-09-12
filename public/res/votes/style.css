@@ -3,16 +3,19 @@ body{
     font-family: 'Manrope', sans-serif;
 }
 ul{
-    display:inline-flex;
+    display: grid;
+    place-items: top;
     list-style-type: none;
-    justify-content: flex-start;
-    flex-wrap: wrap;
+    column-gap: 1%;
     padding: 0%;
-    text-align: left;
+    gap: 1%;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 500px));
+
 }
 
 li{
-    width: 500px;
+    display: grid;
     background-color: #393E46;
     color: #EEEEEE;
     margin: 0.5%;
@@ -66,4 +69,11 @@ p{
 }
 #link-head{
     text-decoration: none;
+}
+
+#load{
+    position: absolute;
+    top: 0%; left: 0%; right: 0%; bottom: 0%;
+    text-align: center;
+    vertical-align: text-bottom;
 }

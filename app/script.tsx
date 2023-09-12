@@ -2,13 +2,13 @@ import axios from 'axios';
 import { getCookies, setCookie, deleteCookie, getCookie } from 'cookies-next';
 import { moveToPage } from "./pages"
 
-function setCookiee(c_name, value)
+function setCookiee(c_name: string, value: string)
 {
     var c_value=escape(value) + "; path=/";
     document.cookie=c_name + "=" + c_value;
 }
 
-function parseJwt (token) {
+function parseJwt (token: string) {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
@@ -17,7 +17,7 @@ function parseJwt (token) {
 
     return JSON.parse(jsonPayload);
 }
-function checkAccess(token) {
+function checkAccess(token: string) {
     var secondsSinceEpoch = Date.now() / 1000
     var res = parseJwt(token);
     
@@ -28,7 +28,7 @@ function getCookiee(name: string) {
     return getCookie(name);
 }
 
-async function getNewTokens(reftoken){
+async function getNewTokens(reftoken: string){
     if (String(reftoken) == "undefined") return false;
     if (!checkAccess(reftoken)) return false;
 
@@ -71,11 +71,11 @@ export async function login() {
                 var url = "https://api.minetools.eu/profile/" + obj["username"];
                 var data = await axios.get(url);
                 var objd = data.data;
-                const cardname = document.querySelector("#card-name");
-                const cardnameid = document.getElementById("card-name") as HTMLAnchorElement | null;
+                const cardname = document.querySelector("#card-name") as Element;
+                const cardnameid = document.getElementById("card-name") as HTMLAnchorElement;
 			    cardname.textContent = objd["decoded"]["profileName"];
                 cardnameid.href = "/me/";
-                var avatar = document.getElementById("profile-img") as HTMLImageElement | null
+                var avatar = document.getElementById("profile-img") as HTMLImageElement;
                 avatar.src = "https://crafatar.com/avatars/" + obj["username"] + "?size=46&overlay";
                 console.log("logged!");
             }

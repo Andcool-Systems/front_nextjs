@@ -3,13 +3,13 @@ import { getCookies, setCookie, deleteCookie, getCookie } from 'cookies-next';
 import { useRouter } from 'next/router'
 import { moveToPage } from "./pages"
 
-function setCookiee(c_name, value)
+function setCookiee(c_name: string, value: string)
 {
     var c_value=escape(value) + "; path=/";
     document.cookie=c_name + "=" + c_value;
 }
 
-function parseJwt (token) {
+function parseJwt (token: string) {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
@@ -18,7 +18,7 @@ function parseJwt (token) {
 
     return JSON.parse(jsonPayload);
 }
-function checkAccess(token) {
+function checkAccess(token: string) {
     var secondsSinceEpoch = Date.now() / 1000
     var res = parseJwt(token);
     
@@ -29,7 +29,7 @@ function getCookiee(name: string) {
     return getCookie(name);
 }
 
-async function getNewTokens(reftoken){
+async function getNewTokens(reftoken: string){
     if (String(reftoken) == "undefined") return false;
     if (!checkAccess(reftoken)) return false;
 
@@ -54,13 +54,13 @@ async function getNewTokens(reftoken){
 
 var api = "http://192.168.0.105:8080"
 export async function register() {
-    var nick = document.getElementById("nick") as HTMLInputElement | null;
+    var nick = document.getElementById("nick") as HTMLInputElement;
     var url = "https://api.minetools.eu/uuid/" + nick.value;
     var data = await axios.get(url);
     var obj = data.data;
     var username = obj["id"];
-    var password = document.getElementById("password") as HTMLInputElement | null;
-    if (username != "" && password.value != ""){
+    var password = document.getElementById("password") as HTMLInputElement;
+    if (username != "" && password.value != "" && obj["status"] != "ERR"){
 
         var url = api + "/register"
         var data = await axios.post(url, {
@@ -76,7 +76,7 @@ export async function register() {
         }
         else{
             if (obj["message"] == "this user already exists"){
-                const usr = document.querySelector("#nickSmall");
+                const usr = document.querySelector("#nickSmall") as Element;
                 usr.textContent = "Имя пользователя уже существует";
             }
         }
@@ -86,12 +86,12 @@ export async function register() {
 }
 
 export async function loginUsername() {
-    var nick = document.getElementById("nick") as HTMLInputElement | null;
+    var nick = document.getElementById("nick") as HTMLInputElement;
     var url = "https://api.minetools.eu/uuid/" + nick.value;
     var data = await axios.get(url);
     var obj = data.data;
     var username = obj["id"];
-    var password = document.getElementById("password") as HTMLInputElement | null;
+    var password = document.getElementById("password") as HTMLInputElement;
     if (username != "" && password.value != ""){
 
         var url = api + "/loginUsername"
@@ -109,15 +109,15 @@ export async function loginUsername() {
         }
         else{
             if (obj["message"] == "this user already exists"){
-                const usr = document.querySelector("#nickSmall");
+                const usr = document.querySelector("#nickSmall") as Element;
                 usr.textContent = "Имя пользователя уже существует";
             }
             if (obj["message"] == "user not found"){
-                const usr = document.querySelector("#nickSmall");
+                const usr = document.querySelector("#nickSmall") as Element;
                 usr.textContent = "Имя пользователя не найдено";
             }
             if (obj["message"] == "wrong password"){
-                const usr = document.querySelector("#passwordSmall");
+                const usr = document.querySelector("#passwordSmall") as Element;
                 usr.textContent = "Не правильный пароль";
             }
         }

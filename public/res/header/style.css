@@ -1,0 +1,40 @@
+header{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background-color: #393E46;
+    padding-bottom: 0.3%;
+    padding-top: 0.3%;
+}
+
+#card{
+    display:grid;
+    align-items: center;
+    border-radius: 5px;
+    white-space: nowrap;
+    padding-right: 15px;
+    justify-content: flex-start;
+    grid-auto-flow: column;
+
+}
+
+
+#card a{
+    text-decoration: none;
+    color: white; 
+    padding-left: 6%;
+    padding-right: 6%;
+    font-size: 100%;
+}
+#card img{
+    border-radius: 5px;
+}
+
+
+@media(max-width: 425px){
+    #card{
+        padding: 2%;
+        padding-left: 50;
+    }
+}
+

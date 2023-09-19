@@ -1,6 +1,7 @@
 body{
     background-color: #222831;
     font-family: 'Manrope', sans-serif;
+    margin: 0%;
 }
 ul{
     display: grid;
@@ -58,6 +59,8 @@ h2{
     margin-bottom: 1%;
     text-decoration: none;
     color: #EEEEEE;
+    word-break: break-word;
+    white-space: normal;
 }
 h2:hover{
     text-decoration: underline;
@@ -66,6 +69,8 @@ h2:hover{
 
 p{
     margin-top: 0%;
+    word-break: break-word;
+    white-space: normal;
 }
 #link-head{
     text-decoration: none;
@@ -76,4 +81,40 @@ p{
     top: 0%; left: 0%; right: 0%; bottom: 0%;
     text-align: center;
     vertical-align: text-bottom;
+}
+
+#author{
+    display: flex;
+    align-items: center;
+}
+
+#author img{
+    border-radius: 5px;
+}
+
+#author a{
+    text-decoration: none;
+    color: #EEEEEE;
+    margin-left: 1.5%;
+}
+
+#author a:hover{
+    text-decoration: underline;
+}
+
+#votes_num{
+    margin-top: 1%;
+    margin-bottom: 0%;
+    color: gray;
+}
+
+#time{display:flex; justify-content: space-between;}
+#time p{margin-left: 2%; margin-right: 2%; font-size: 90%; margin-bottom: 0%; white-space: nowrap;}
+
+@media(max-width: 425px){
+    ul{
+        grid-template-columns: repeat(auto-fill, minmax(200px, 300px));
+    
+    }
+    #time p{font-size: 80%;}
 }

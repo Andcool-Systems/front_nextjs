@@ -62,7 +62,7 @@ export async function login() {
             );
             var obj = data.data;
             if (obj["status"] == "success"){
-                var url = "https://api.minetools.eu/profile/" + obj["username"];
+                var url = "https://api.minetools.eu/profile/" + obj["uuid"];
                 var data = await axios.get(url);
                 var objd = data.data;
             
@@ -117,7 +117,7 @@ export async function loadVotes(){
         }
     }else{
         var res = await getNewTokens(String(getCookiee("refreshToken")));
-        if (!res) console.log("to login page");
+        if (!res) moveToPage("/login/");
         else{
             setTimeout(() => login(), 1000);
         } 

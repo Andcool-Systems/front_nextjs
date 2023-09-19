@@ -21,8 +21,11 @@
     "next": "13.4.19",
     "next-client-cookies": "^1.0.3",
     "npm": "^10.1.0",
+    "qs": "^6.11.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hydration-provider": "^2.0.0",
+    "react-query": "^3.39.3",
     "typescript": "5.2.2",
     "universal-cookie": "^6.1.1"
   },

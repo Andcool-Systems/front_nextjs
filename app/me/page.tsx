@@ -1,6 +1,7 @@
 "use client";
 import Script from "next/script"
 import {login, logout} from "./script.tsx"
+import { Header } from '../header.tsx'
 
 export default function Home() {
     
@@ -17,6 +18,7 @@ export default function Home() {
 
 
       <body>
+        <Header />
         <header>
             <button id="logout" onClick={ logout }>Выйти</button>
         </header>

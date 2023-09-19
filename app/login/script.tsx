@@ -58,13 +58,14 @@ export async function register() {
     var url = "https://api.minetools.eu/uuid/" + nick.value;
     var data = await axios.get(url);
     var obj = data.data;
-    var username = obj["id"];
+    var uuid = obj["id"];
     var password = document.getElementById("password") as HTMLInputElement;
-    if (username != "" && password.value != "" && obj["status"] != "ERR"){
+    if (uuid != "" && password.value != "" && obj["status"] != "ERR"){
 
         var url = api + "/register"
         var data = await axios.post(url, {
-            "username": username,
+            "nickname": nick.value,
+            "uuid": uuid,
             "password": password.value
             }, {headers: {"Content-type": "application/json; charset=UTF-8"}}
         );
@@ -90,13 +91,13 @@ export async function loginUsername() {
     var url = "https://api.minetools.eu/uuid/" + nick.value;
     var data = await axios.get(url);
     var obj = data.data;
-    var username = obj["id"];
+    var uuid = obj["id"];
     var password = document.getElementById("password") as HTMLInputElement;
-    if (username != "" && password.value != ""){
+    if (uuid != "" && password.value != ""){
 
         var url = api + "/loginUsername"
         var data = await axios.post(url, {
-            "username": username,
+            "uuid": uuid,
             "password": password.value
             }, {headers: {"Content-type": "application/json; charset=UTF-8"}}
         );

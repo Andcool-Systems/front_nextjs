@@ -67,22 +67,15 @@ export async function login() {
             );
             var obj = data.data;
             if (obj["status"] == "success"){
-
                 
-
-                var url = "https://api.minetools.eu/profile/" + obj["username"];
-                var data = await axios.get(url);
-                var objd = data.data;
-                
-
-                document.title = objd["decoded"]["profileName"] + " · личный кабнет";
+                document.title = obj["nickname"] + " · личный кабнет";
                 let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
                 if (!link) {
                     link = document.createElement('link') as HTMLLinkElement;
                     link.rel = 'icon';
                     document.head.appendChild(link);
                 }
-                link.href = "https://crafatar.com/avatars/" + obj["username"] + "?size=46&overlay";
+                link.href = "https://crafatar.com/avatars/" + obj["uuid"] + "?size=46&overlay";
                 console.log("logged!");
             }
             

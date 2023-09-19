@@ -33,6 +33,8 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
-npm i @fingerprintjs/fingerprintjs
 npm install --save cookies-next
 yarn add axios
+npm install react-hydration-provider
+npm i react-query
+npm i qs

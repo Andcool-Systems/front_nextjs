@@ -40,27 +40,31 @@ export default function Home() {
 		</>
 	  );
 }
-var api = "http://192.168.0.105:8080"
+var api = process.env.NEXT_PUBLIC_API_URL
 async function create(data){
     var qs = require('qs');
     let header = document.getElementById("header") as HTMLInputElement;
     let info = document.getElementById("info") as HTMLInputElement;
     let elements = [];
     let filled = true;
+    let dateValue = (document.getElementById("dateInput") as HTMLInputElement).value;
+    const date = +new Date(dateValue)
+
     for (let element of data) {
         elements.push(element.vote);
         if (element.vote == "") filled = false;
     }
-    if (header.value == "" || info.value == "") filled = false;
+    if (header.value == "" || info.value == "" || dateValue == "") filled = false;
     var notifier = document.getElementById("notifier") as HTMLInputElement;
     if (filled){
+        notifier.style.display = "none";
         notifier.textContent = "";
         let url = api + "/createPost"
         let answer = await axios.post(url, {
             params: {
                 "header": header.value,
                 "info": info.value,
-                "expiresAt": 1702923488,
+                "expiresAt": Math.floor(date / 1000),
                 "fields": elements
             },
             paramsSerializer: (params: any) => {
@@ -69,10 +73,11 @@ async function create(data){
         }, {headers: {"Content-type": "application/json; charset=UTF-8", 
             "Authorization": "Bearer " + getCookie("accessToken")}}
         );
-        if (answer.status == 201){
+        if (String(answer.data["status"]) == "success"){
             moveToPage("/votes/");
         }
     }else{
+        notifier.style.display = "block";
         notifier.textContent = "Пожалуйста, заполните все поля выше"
     }
 }
@@ -113,6 +118,11 @@ function DynamicForm(){
     }
   }
 
+  const setDate = () => {
+    let dateInput = document.getElementById("dateInput") as HTMLInputElement;
+    dateInput.min = new Date().toISOString().slice(0,new Date().toISOString().lastIndexOf(":"));
+  }
+
   return (
     <div className="create">
         <input
@@ -124,11 +134,11 @@ function DynamicForm(){
         <textarea
             id='info'
             placeholder='Описание'
-            maxLength={3000}
+            maxLength={5000}
         />
         {formFields.map((form, index) => {
           return (
-                <div className='voteField'>
+                <div className='voteField' key={index}>
                     <input
                         name='vote'
                         placeholder='Вариант ответа...'
@@ -141,9 +151,14 @@ function DynamicForm(){
             
           )
         })}
-        <p id="notifier"></p>
+
         <button onClick={addFields} id="addBtn">Добавить вариант ответа</button>
-        <br />
+        <br/>
+        <hr></hr>
+        <p id="timeText">Голосование истекает через:</p><br/>
+        <input type="datetime-local" id="dateInput" onFocus={setDate}/>
+        <br/>
+        <p id="notifier"></p>
         <button onClick={submit} id="submitBtn">Опубликовать</button>
     </div>
   );

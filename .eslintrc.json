@@ -6,6 +6,7 @@
     }
   },
   "rules": {
+    "prettier/prettier": 0,
     "@next/next/no-html-link-for-pages": 2
   }
 }

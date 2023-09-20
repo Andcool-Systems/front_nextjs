@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { getCookies, setCookie, deleteCookie, getCookie } from 'cookies-next';
-import { moveToPage } from "./pages"
+import { moveToPage } from "../pages"
 
 function setCookiee(c_name: string, value: string)
 {
@@ -97,11 +97,11 @@ export async function login() {
     }
 }
 
-export async function loadVotes(){
+export async function loadVote(id){
     if (String(getCookiee("accessToken")) != "undefined"){
         if (checkAccess(String(getCookiee("accessToken")))){
 
-            var url = api + "/votes"
+            var url = api + "/voteById/" + id.queryKey[1]
             var data = await axios.get(url, {headers: {"Content-type": "application/json; charset=UTF-8", 
                 "Authorization": "Bearer " + getCookiee("accessToken")
                 }}

@@ -1,0 +1,150 @@
+body{
+    background-color: #222831;
+    font-family: 'Manrope', sans-serif;
+    margin: 0%;
+}
+
+.vote{
+    margin-top: 1%;
+    padding: 1%;
+    background-color: #393E46;
+    text-align: center;
+    width: 50%;
+    margin-left:auto;
+    margin-right:auto;
+    border-radius: 15px;
+    -webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+}
+
+#header{
+    font-size: 200%;
+    text-align: left;
+    border-radius: 5px;
+    margin-bottom: 1%;
+    color: #EEEEEE;
+    font-family: 'Manrope', sans-serif;
+    margin-top: 0%;
+    word-break: break-word;
+    white-space: normal;
+}
+
+#info{
+    text-align: left;
+    font-size: 110%;
+    border-radius: 5px;
+    color: #EEEEEE;
+    font-family: 'Manrope', sans-serif;
+    word-break: break-word;
+    white-space: normal;
+}
+
+#field{
+    display:grid;
+    grid-auto-flow: column;
+    align-items: center;
+    grid-template-columns: 30% 40% 20% auto;
+}
+#fieldName{
+    font-size: 90%;
+    text-align: left;
+    color: #EEEEEE;
+    margin: 0%;
+    margin-right: 5%;
+    word-break: break-word;
+    white-space: normal;
+    font-family: 'Manrope', sans-serif;
+}
+#votedCount{
+    text-align: left;
+    color: #EEEEEE;
+    margin: 0%;
+}
+hr{
+    width: 100%;
+	border: 1px solid #222831;
+	margin-bottom: 1%;
+}
+#progress{
+    background-color: #222831;
+    border-radius: 5px;
+    width: 90%;
+}
+#progress::-webkit-progress-bar {
+    background-color: #222831;
+    border-radius: 5px;
+}
+#progress::-webkit-progress-value {
+    background: #00ADB5;
+    border-radius: 5px;
+}
+#progress::-moz-progress-bar {
+    background: #00ADB5;
+    border-radius: 5px;
+}
+#vote_btn{
+    border: none;
+    padding: 2%;
+    background-color: #222831;
+    color: #EEEEEE;
+    border-radius: 5px;
+    -webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    font-family: 'Manrope', sans-serif;
+}
+#author{
+    display: flex;
+    align-items: center;
+}
+#author img{
+    border-radius: 5px;
+}
+#author a{
+    text-decoration: none;
+    color: #EEEEEE;
+    margin-left: 1.5%;
+    font-family: 'Manrope', sans-serif;
+}
+#author a:hover{
+    text-decoration: underline;
+}
+
+#notifier{
+    font-family: 'Manrope', sans-serif; 
+    color: rgb(221, 0, 0);
+    display: none;
+    margin: 0%;
+    word-break: break-word;
+    white-space: normal;
+}
+
+#load{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#load img{
+    animation: myAnim 3s ease-in-out 0s infinite normal forwards;
+}
+#load p{
+    color: #EEEEEE;
+    margin-left: -50%;
+}
+@keyframes myAnim {
+	0%,
+	50%,
+	100% {
+		opacity: 1;
+	}
+
+	25%,
+	75% {
+		opacity: 0;
+	}
+}

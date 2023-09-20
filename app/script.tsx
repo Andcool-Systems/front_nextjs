@@ -51,7 +51,7 @@ async function getNewTokens(reftoken: string){
 }
 
 
-var api = "http://192.168.0.105:8080"
+var api = process.env.NEXT_PUBLIC_API_URL
 export async function login() {
     if (String(getCookiee("accessToken")) != "undefined"){
         if (checkAccess(String(getCookiee("accessToken")))){
@@ -64,6 +64,7 @@ export async function login() {
             if (obj["status"] == "success"){
                 const cardname = document.querySelector("#card-name") as Element;
                 const cardnameid = document.getElementById("card-name") as HTMLAnchorElement;
+                if (cardname == null) location.reload();
 			    cardname.textContent = obj["nickname"];
                 cardnameid.href = "/me/";
                 var avatar = document.getElementById("profile-img") as HTMLImageElement;

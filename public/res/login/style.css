@@ -1,6 +1,6 @@
 
 body {
-    background: #151517;
+    background: #222831;
     margin: 0;
     color: white;
     font-family: 'Manrope', sans-serif;
@@ -13,9 +13,10 @@ input {
     width: 16%;
     border-radius: 12px;
     border: none;
-    background-color: #1E1E20;
-    color: gray;
+    background-color: #393E46;
+    color: #EEEEEE;
     border-color: red;
+    font-family: 'Manrope', sans-serif;
 }
 
 
@@ -24,23 +25,26 @@ button {
     padding: 10%;
     border-radius: 12px;
     border: none;
-    background-color: #1E1E20;
-    color: white;
+    background-color: #393E46;
+    color: #EEEEEE;
     margin-left: 2%;
     cursor: pointer;
     white-space:nowrap;
+    font-family: 'Manrope', sans-serif;
 }
 
 #main{
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-family: 'Manrope', sans-serif;
 }
 
 #buttons{
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: 'Manrope', sans-serif;
 }
 
 .small_mess{
@@ -50,12 +54,14 @@ button {
     margin-bottom: 1%;
     white-space:nowrap;
     color: rgb(221, 0, 0);
+    font-family: 'Manrope', sans-serif;
 }
 
 .small_mess.id{
-    color: rgb(255, 255, 255);
+    color: #EEEEEE;
     font-size: 70%;
     margin-bottom: 0%;
+    font-family: 'Manrope', sans-serif;
 }
 
 

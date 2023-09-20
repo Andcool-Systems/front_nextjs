@@ -51,7 +51,7 @@ async function getNewTokens(reftoken: string){
 }
 
 
-var api = "http://192.168.0.105:8080"
+var api = process.env.NEXT_PUBLIC_API_URL
 export async function login() {
     if (String(getCookiee("accessToken")) != "undefined"){
         if (checkAccess(String(getCookiee("accessToken")))){

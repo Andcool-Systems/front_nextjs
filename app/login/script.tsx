@@ -52,7 +52,7 @@ async function getNewTokens(reftoken: string){
 }
 
 
-var api = "http://192.168.0.105:8080"
+var api = process.env.NEXT_PUBLIC_API_URL
 export async function register() {
     var nick = document.getElementById("nick") as HTMLInputElement;
     var url = "https://api.minetools.eu/uuid/" + nick.value;
@@ -87,6 +87,7 @@ export async function register() {
 }
 
 export async function loginUsername() {
+
     var nick = document.getElementById("nick") as HTMLInputElement;
     var url = "https://api.minetools.eu/uuid/" + nick.value;
     var data = await axios.get(url);

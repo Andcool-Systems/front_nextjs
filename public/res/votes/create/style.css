@@ -85,4 +85,26 @@ body{
 #notifier{
     font-family: 'Manrope', sans-serif; 
     color: rgb(221, 0, 0);
+    display: none;
+    margin: 0%;
+}
+#timeText{
+    margin:0%;
+    font-family: 'Manrope', sans-serif;
+    color: #EEEEEE;
+}
+hr{
+    width: 100%;
+	border: 1px solid #222831;
+	margin-bottom: 1%;
+}
+#dateInput{
+    background-color: #222831;
+    color: #EEEEEE;
+    border: none;
+    padding: 1%;
+    border-radius: 5px;
+    -webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
 }

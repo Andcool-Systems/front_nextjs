@@ -67,22 +67,7 @@ export async function login() {
             );
             var obj = data.data;
             if (obj["status"] == "success"){
-                const cardname = document.querySelector("#card-name") as Element;
-                const cardnameid = document.getElementById("card-name") as HTMLAnchorElement;
-			    cardname.textContent = obj["nickname"];
-                cardnameid.href = "/me/";
-                var avatar = document.getElementById("profile-img") as HTMLImageElement;
-                avatar.src = "https://crafatar.com/avatars/" + obj["uuid"] + "?size=46&overlay";
-
-                document.title = obj["nickname"] + " · личный кабнет";
-                let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
-                if (!link) {
-                    link = document.createElement('link') as HTMLLinkElement;
-                    link.rel = 'icon';
-                    document.head.appendChild(link);
-                }
-                link.href = "https://crafatar.com/avatars/" + obj["uuid"] + "?size=46&overlay";
-                console.log("logged!");
+                
             }
             
             else{
@@ -159,5 +144,29 @@ export async function logout() {
     }
 }
 
-function start(){login()};
-start();
+export async function loadUser(id){
+    if (String(getCookiee("accessToken")) != "undefined"){
+        if (checkAccess(String(getCookiee("accessToken")))){
+
+            var url = api + "/user/" + id.queryKey[1]
+            var data = await axios.get(url, {headers: {"Content-type": "application/json; charset=UTF-8", 
+                "Authorization": "Bearer " + getCookiee("accessToken")
+                }}
+            );
+            var obj = data.data;
+            return obj;
+        }else{
+            var res = await getNewTokens(String(getCookiee("refreshToken")));
+            if (!res) moveToPage("/login/");
+            else{
+                setTimeout(() => login(), 1000);
+            }
+        }
+    }else{
+        var res = await getNewTokens(String(getCookiee("refreshToken")));
+        if (!res) moveToPage("/login/");
+        else{
+            setTimeout(() => login(), 1000);
+        } 
+    }
+}

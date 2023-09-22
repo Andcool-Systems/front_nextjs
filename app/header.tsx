@@ -16,7 +16,7 @@ export function Header(){
         <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
         <link rel="stylesheet" href="/res/header/style.css"></link>
     
-          <body>
+          
             <header>
                 <img></img>
               <div id="card">
@@ -24,7 +24,7 @@ export function Header(){
                   <a id="card-name" href="/login/">Войти</a>
               </div>
             </header>
-          </body>
+          
     </>
     )
 }

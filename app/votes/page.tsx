@@ -85,7 +85,7 @@ function Main(){
 				<p>{vote.info}</p>
 				<div id="author">
 					<img
-						src={"https://crafatar.com/avatars/" + vote.uuid + "?size=32&overlay"}
+						src={"https://visage.surgeplay.com/face/48/" + vote.uuid + "?no=shadow,overlay,ears,cape"}
 						alt={vote.nickname}
 					/>
 					<a href={"/user/" + vote.nickname}>{vote.nickname}</a>

@@ -1,0 +1,165 @@
+body{
+    background-color: #222831;
+    font-family: 'Manrope', sans-serif;
+    margin: 0%;
+}
+
+header{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background-color: #393E46;
+    padding-bottom: 0.3%;
+    padding-top: 0.3%;
+}
+
+#card{
+    display:grid;
+    align-items: center;
+    border-radius: 5px;
+    white-space: nowrap;
+    padding-right: 15px;
+    justify-content: flex-start;
+    grid-auto-flow: column;
+
+}
+
+
+#card a{
+    text-decoration: none;
+    color: white; 
+    padding-left: 6%;
+    padding-right: 6%;
+    font-size: 100%;
+}
+#card img{
+    border-radius: 5px;
+}
+
+#load{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: -32px;
+    margin-top: -32px;
+}
+
+#load img{
+    animation: myAnim 3s ease-in-out 0s infinite normal forwards;
+}
+#load p{
+    color: #EEEEEE;
+    margin-left: -50%;
+}
+@keyframes myAnim {
+	0%,
+	50%,
+	100% {
+		opacity: 1;
+	}
+
+	25%,
+	75% {
+		opacity: 0;
+	}
+}
+
+.user{
+    margin-top: 1%;
+    padding: 1%;
+    background-color: #393E46;
+    text-align: center;
+    width: 50%;
+    margin-left:auto;
+    margin-right:auto;
+    border-radius: 15px;
+    -webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    margin-bottom: 3%;
+}
+#card{
+    display:flex;
+}
+#nickname{
+    font-family: 'Manrope', sans-serif;
+    color: #EEEEEE;
+    margin: 0%;
+}
+#nickname::after{
+    
+}
+#profile-img{border-radius: 5px;}
+#votes-scrollable{
+    background-color: #222831;
+    padding: 3%;
+    border-radius: 15px;
+    margin-top: 2%;
+    -webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+}
+#field{
+    text-align: left;
+}
+hr{
+    width: 100%;
+	border: 1px solid #393E46;
+	margin-bottom: 1%;
+}
+#name{
+    color:#EEEEEE;
+    text-decoration: none;
+    font-size: 130%;
+    text-align: left;
+}
+#name:hover{text-decoration: underline;}
+
+#info{
+    color:#d1d0d0;
+    text-decoration: none;
+    font-size: 90%;
+    text-align: left;
+    margin: 0%;
+}
+
+#voted{
+    color: gray;
+    margin: 0%;
+    margin-top: 1%;
+}
+#uuid{
+    margin: 0%;
+    font-family: 'Manrope', sans-serif;
+    color: #d1d0d0;
+}
+#card-name{text-align: left; margin-left: 5%;}
+
+#root{text-align: left;}
+
+#self-hr{
+    width: 100%;
+	border: 1px solid #222831;
+	margin-bottom: 1%;
+}
+#root h3{
+    margin: 0%;
+    color:#EEEEEE;
+    margin-bottom: 2%;
+}
+#root button{
+    border: none;
+    cursor: pointer;
+    background-color: #222831;
+    color: #EEEEEE;
+    padding: 1.5%;
+    border-radius: 5px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 100%;
+    -webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+}

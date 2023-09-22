@@ -25,6 +25,6 @@
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts",
     "app/script.tsx"
-  ],
+, "app/avatar_generator.js"  ],
   "exclude": ["node_modules"]
 }

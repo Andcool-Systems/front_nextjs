@@ -64,11 +64,11 @@ export async function login() {
             if (obj["status"] == "success"){
                 const cardname = document.querySelector("#card-name") as Element;
                 const cardnameid = document.getElementById("card-name") as HTMLAnchorElement;
-                if (cardname == null) location.reload();
+                //if (cardname == null) location.reload();
 			    cardname.textContent = obj["nickname"];
-                cardnameid.href = "/me/";
+                cardnameid.href = "/user/" + obj["nickname"] + "/";
                 var avatar = document.getElementById("profile-img") as HTMLImageElement;
-                avatar.src = "https://crafatar.com/avatars/" + obj["uuid"] + "?size=46&overlay";
+                avatar.src = "https://visage.surgeplay.com/face/48/" + obj["uuid"] + "?no=shadow,overlay,ears,cape";
                 console.log("logged!");
             }
             

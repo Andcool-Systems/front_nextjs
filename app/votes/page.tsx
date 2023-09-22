@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { loadVotes } from "./login.tsx"
 import React from 'react';
@@ -13,6 +13,7 @@ import Link from 'next/link';
 import { Header } from '../header.tsx'
 import { HydrationProvider, Server, Client } from "react-hydration-provider";
 //import { useSearchParams } from 'next/navigation'
+import { getCookie } from 'cookies-next';
 
 const queryClient = new QueryClient();
 
@@ -29,8 +30,9 @@ export default function Home() {
                 <Client>
 					<body>
 						<Header />
-		  				<Main />
+						<Main />
 					</body>
+
 			  	</Client>
             </HydrationProvider>
 		</QueryClientProvider>
@@ -51,25 +53,42 @@ interface IVote {
     expires_date: string;
 }
 
+var api = process.env.NEXT_PUBLIC_API_URL
 function Main(){
-    const {data, isLoading, isError} = useQuery<IVote[]>('votes', loadVotes);
-	
-	if (isLoading) return (
-		<div id="load">
-			<img src="/res/icons/logo.png"></img>
-			</div>
-		);
-	if (isError) return (
-		<div id="load">
-			<img src="/res/icons/logo.png"></img>
-			</div>
-		);
-	if (!data) return (
-		<div id="load">
-			<img src="/res/icons/logo.png"></img>
-			</div>
-		);
-	const listItems = data.map(vote =>
+	const [dataa, setData] = useState([]);
+	const [currentPage, setCurrentPage] = useState(0);
+	const [fetching, setFetching] = useState(true);
+	const [totalCount, setTotalCount] = useState(1);
+
+	useEffect(() => {
+		if (fetching && dataa.length < totalCount){
+			const url = api + `/votes?page=${currentPage}&count=20`
+			axios.get(url, {headers: {"Content-type": "application/json; charset=UTF-8", 
+					"Authorization": "Bearer " + getCookie("accessToken")
+					}}
+				).then(response => {
+					setData([...dataa, ...response.data.data]);
+					setCurrentPage(prevState => prevState + 1);
+					setTotalCount(parseInt(response.data.totalCount));
+					
+				})
+				.finally(() => setFetching(false))
+		}
+	}, [fetching])
+
+	useEffect(() => {
+		document.addEventListener('scroll', scrollHandler);
+		return function (){
+			document.removeEventListener('scroll', scrollHandler);
+		}
+	}, [])
+
+    const scrollHandler = (e) => {
+		if(e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100){
+			setFetching(true);
+		}
+	}
+	const listItems = dataa.map(vote =>
 		<li key={vote.id} id="li">
 			<div id="progress-votes">
 				<progress id="progress"
@@ -96,7 +115,6 @@ function Main(){
 	  );
     return (
     <>
-      
         <ul id="votes">{listItems}</ul>
       
     </>

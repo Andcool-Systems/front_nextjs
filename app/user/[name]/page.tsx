@@ -69,6 +69,7 @@ function DynamicForm({id}){
             <hr id="self-hr"></hr>
             <h3>Настройки аккаунта:</h3>
             <button onClick={ logout }>Выйти</button>
+            <hr id="self-hr"></hr>
         </div>
     );
     
@@ -83,11 +84,11 @@ function DynamicForm({id}){
             </div>
     
         </div>
+        {data.self ? root : ""}
         <div id="votes-scrollable">
             <hr></hr>
             {votes}
         </div>
-        {data.self ? root : ""}
       </div>
     );
   

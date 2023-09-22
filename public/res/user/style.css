@@ -92,7 +92,7 @@ header{
 #nickname::after{
     
 }
-#profile-img{border-radius: 5px;}
+#profile-imgg{border-radius: 5px;}
 #votes-scrollable{
     background-color: #222831;
     padding: 3%;
@@ -136,7 +136,7 @@ hr{
     font-family: 'Manrope', sans-serif;
     color: #d1d0d0;
 }
-#card-name{text-align: left; margin-left: 5%;}
+#card-namee{text-align: left; margin-left: 5%;}
 
 #root{text-align: left;}
 
@@ -145,10 +145,12 @@ hr{
 	border: 1px solid #222831;
 	margin-bottom: 1%;
 }
-#root h3{
+h3{
     margin: 0%;
     color:#EEEEEE;
     margin-bottom: 2%;
+    margin-top: 2%;
+    text-align: left;
 }
 #root button{
     border: none;
@@ -162,4 +164,13 @@ hr{
     -webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
     box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+}
+
+@media(max-width: 425px){
+    .user{width: 90%; padding: 3%;}
+    #profile-imgg{width: 85%;}
+    #nickname{font-size: 120%;}
+    #uuid{font-size: 60%;}
+    h3{font-size: 100%;}
+    #logout-button{font-size: 80%;}
 }

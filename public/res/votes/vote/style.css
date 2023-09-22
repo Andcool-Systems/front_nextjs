@@ -65,12 +65,14 @@ body{
 hr{
     width: 100%;
 	border: 1px solid #222831;
-	margin-bottom: 1%;
+	margin: 0%;
 }
 #progress{
     background-color: #222831;
     border-radius: 5px;
     width: 90%;
+    margin-top: 9%;
+    margin-bottom: 9%;
 }
 #progress::-webkit-progress-bar {
     background-color: #222831;
@@ -163,4 +165,10 @@ hr{
 	75% {
 		opacity: 0;
 	}
+}
+
+@media(max-width: 425px){
+    .vote{width: 90%; padding: 3%;}
+    #votedCount{font-size: 90%;}
+    #header{line-height: 100%; font-size: 140%;}
 }

@@ -12,11 +12,8 @@ export default function Home() {
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@800&family=Manrope:wght@600&display=swap" rel="stylesheet"></link>
         <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
         <link rel="stylesheet" href="res/login/style.css"></link>
-        <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
-        <Script type="text/javascript" async defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"/>
 
-      
-
+    
         <div id="main">
             <h2>Войти</h2>
             <input type="nick" id="nick" name="nick" placeholder="Никнейм майнкрафт" onInput={ updnick }></input>

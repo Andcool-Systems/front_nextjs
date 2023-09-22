@@ -63,6 +63,19 @@ button {
     margin-bottom: 0%;
     font-family: 'Manrope', sans-serif;
 }
+@media(max-width: 425px){
+    input{
+        width: 80%;
+        padding: 2%;
+        margin-bottom: 0.5%;
+    }
+    .small_mess{
+        width: auto;
+    }
+    button{
+        padding: 5%;
+    }
+}
 
 
 

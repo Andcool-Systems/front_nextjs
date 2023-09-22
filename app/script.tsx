@@ -64,9 +64,11 @@ export async function login() {
             if (obj["status"] == "success"){
                 const cardname = document.querySelector("#card-name") as Element;
                 const cardnameid = document.getElementById("card-name") as HTMLAnchorElement;
+                const hrefimg = document.getElementById("href-img") as HTMLAnchorElement;
                 //if (cardname == null) location.reload();
 			    cardname.textContent = obj["nickname"];
                 cardnameid.href = "/user/" + obj["nickname"] + "/";
+                hrefimg.href = "/user/" + obj["nickname"] + "/";
                 var avatar = document.getElementById("profile-img") as HTMLImageElement;
                 avatar.src = "https://visage.surgeplay.com/face/48/" + obj["uuid"] + "?no=shadow,overlay,ears,cape";
                 console.log("logged!");
@@ -93,7 +95,7 @@ export async function login() {
         }
     }else{
         var res = await getNewTokens(String(getCookiee("refreshToken")));
-        if (!res) console.log("to login page");
+        if (!res) if (window.location.pathname != "/") moveToPage("/login/");
         else{
             setTimeout(() => login(), 1000);
         } 

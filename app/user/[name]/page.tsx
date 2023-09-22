@@ -68,27 +68,30 @@ function DynamicForm({id}){
         <div id="root">
             <hr id="self-hr"></hr>
             <h3>Настройки аккаунта:</h3>
-            <button onClick={ logout }>Выйти</button>
-            <hr id="self-hr"></hr>
+            <button onClick={ logout } id="logout-button">Выйти</button>
         </div>
     );
-    
     return (
       <div className="user">
         <div id="card">
 
-            <img id="profile-img" src={"https://visage.surgeplay.com/face/56/" + data.uuid + "?no=shadow,overlay,ears,cape"}></img>
-            <div id="card-name">
+            <img id="profile-imgg" src={"https://visage.surgeplay.com/face/56/" + data.uuid + "?no=shadow,overlay,ears,cape"}></img>
+            <div id="card-namee">
                 <h2 id="nickname">{data.nickname}</h2>
                 <p id="uuid">{data.uuid}</p>
             </div>
     
         </div>
         {data.self ? root : ""}
-        <div id="votes-scrollable">
-            <hr></hr>
-            {votes}
-        </div>
+        {(data.votes).length != 0 ? 
+        <>
+          <hr id="self-hr"></hr>
+          <h3>Голосования игрока:</h3>
+          <div id="votes-scrollable">
+              {votes}
+          </div>
+        </>
+        : ""}
       </div>
     );
   

@@ -90,7 +90,7 @@ export async function login() {
         }
     }else{
         var res = await getNewTokens(String(getCookiee("refreshToken")));
-        if (!res) console.log("to login page");
+        if (!res) moveToPage("/login/");
         else{
             setTimeout(() => login(), 1000);
         } 

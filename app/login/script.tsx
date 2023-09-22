@@ -94,7 +94,7 @@ export async function loginUsername() {
     var obj = data.data;
     var uuid = obj["id"];
     var password = document.getElementById("password") as HTMLInputElement;
-    if (uuid != "" && password.value != ""){
+    if (uuid != "" && password.value != "" && obj["status"] != "ERR"){
 
         var url = api + "/loginUsername"
         var data = await axios.post(url, {
@@ -120,7 +120,7 @@ export async function loginUsername() {
             }
             if (obj["message"] == "wrong password"){
                 const usr = document.querySelector("#passwordSmall") as Element;
-                usr.textContent = "Не правильный пароль";
+                usr.textContent = "Неправильный пароль";
             }
         }
             

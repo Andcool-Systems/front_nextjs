@@ -53,14 +53,14 @@ function DynamicForm({id}){
     if (data.status == "error") return <div id="load"><p>{data.message}</p></div>;
 
     const votes = (data.votes).map(vote =>
-      <>
-      <div id="field" key={vote.key}>
-        <a id="name" href={"/votes/" + vote.id}>{vote.name}</a>
-        <p id="info">{vote.info}</p>
-        <p id="voted">{vote.votedNum}</p>
+      <div key={vote.key}>
+        <div id="field">
+          <a id="name" href={"/votes/" + vote.id}>{vote.name}</a>
+          <p id="info">{vote.info}</p>
+          <p id="voted">{vote.votedNum}</p>
+        </div>
+        <hr></hr>
       </div>
-      <hr></hr>
-      </>
     );
     
     
@@ -77,7 +77,10 @@ function DynamicForm({id}){
 
             <img id="profile-imgg" src={"https://visage.surgeplay.com/face/56/" + data.uuid + "?no=shadow,overlay,ears,cape"}></img>
             <div id="card-namee">
-                <h2 id="nickname">{data.nickname}</h2>
+                <div id="nn">
+                  <h2 id="nickname">{data.nickname}</h2>
+                  {data.badge != "" ? <img id="badge" title={data.badgeInfo} src={"/res/badges/" + data.badge + ".png"}></img> : ""}
+                </div>
                 <p id="uuid">{data.uuid}</p>
             </div>
     

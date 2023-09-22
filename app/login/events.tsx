@@ -40,7 +40,11 @@ async function parseNick(){
     var obj = data.data;
     const nickid = document.querySelector("#nickSmallid") as Element;
     const nickn = document.querySelector("#nickSmall") as Element;
-    if (obj["status"] == "ERR") nickn.textContent = "Никнейм не найден";
+    console.log(obj);
+    if (obj["status"] == "ERR"){
+        nickn.textContent = "Никнейм не найден";
+        nickid.textContent = "";
+    }
     else 
         if (obj["name"] != undefined){
             nick.value = obj["name"];

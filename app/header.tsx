@@ -20,7 +20,7 @@ export function Header(){
             <header>
                 <img></img>
               <div id="card">
-                  <a href="/login/" id="href-img"><img id="profile-img" src="/res/icons/steve.png"></img></a>
+                  <a href="/login/" id="href-img"><img id="profile-img" src="https://visage.surgeplay.com/face/56/X-Steve?no=shadow,overlay,ears,cape"></img></a>
                   <a id="card-name" href="/login/">Войти</a>
               </div>
             </header>

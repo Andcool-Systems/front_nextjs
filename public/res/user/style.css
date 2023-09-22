@@ -25,16 +25,7 @@ header{
 }
 
 
-#card a{
-    text-decoration: none;
-    color: white; 
-    padding-left: 6%;
-    padding-right: 6%;
-    font-size: 100%;
-}
-#card img{
-    border-radius: 5px;
-}
+
 
 #load{
     position: absolute;
@@ -89,10 +80,16 @@ header{
     color: #EEEEEE;
     margin: 0%;
 }
-#nickname::after{
-    
+#nn{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
 }
-#profile-imgg{border-radius: 5px;}
+#badge{
+    width: 26px;
+    margin-left: 2%;
+}
+#profile-imgg{border-radius: 10px;}
 #votes-scrollable{
     background-color: #222831;
     padding: 3%;
@@ -173,4 +170,5 @@ h3{
     #uuid{font-size: 60%;}
     h3{font-size: 100%;}
     #logout-button{font-size: 80%;}
+    #badge{width: 16px; height: 16px;}
 }

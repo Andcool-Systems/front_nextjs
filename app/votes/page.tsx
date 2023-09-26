@@ -14,6 +14,8 @@ import { Header } from '../header.tsx'
 import { HydrationProvider, Server, Client } from "react-hydration-provider";
 //import { useSearchParams } from 'next/navigation'
 import { getCookie } from 'cookies-next';
+import styles from "../styles/votes/style.module.css";
+import "../styles/votes/style.css"
 
 const queryClient = new QueryClient();
 
@@ -23,34 +25,17 @@ export default function Home() {
 		<>
 		<title>Votes</title>
     	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@800&family=Manrope:wght@600&display=swap" rel="stylesheet"></link>
-    	<link rel="stylesheet" href="res/votes/style.css"></link>
     	<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
 		<QueryClientProvider client={queryClient}>
 			<HydrationProvider>
                 <Client>
-					<body>
-						<Header />
-						<Main />
-					</body>
-
+					<Header />
+					<Main />
 			  	</Client>
             </HydrationProvider>
 		</QueryClientProvider>
 		</>
 	  );
-}
-interface IVote {
-    id: number;
-    name: string;
-    info: string;
-    expires: number;
-
-	nickname: string;
-	uuid: string;
-
-	votes_num: string;
-	created: string;
-    expires_date: string;
 }
 
 var api = process.env.NEXT_PUBLIC_API_URL
@@ -58,6 +43,7 @@ function Main(){
 	const [dataa, setData] = useState([]);
 	const [currentPage, setCurrentPage] = useState(0);
 	const [fetching, setFetching] = useState(true);
+	const [success, setSuccess] = useState(false);
 	const [totalCount, setTotalCount] = useState(1);
 
 	useEffect(() => {
@@ -67,9 +53,14 @@ function Main(){
 					"Authorization": "Bearer " + getCookie("accessToken")
 					}}
 				).then(response => {
-					setData([...dataa, ...response.data.data]);
-					setCurrentPage(prevState => prevState + 1);
-					setTotalCount(parseInt(response.data.totalCount));
+					if (response.data.status == "success"){
+						setData([...dataa, ...response.data.data]);
+						setCurrentPage(prevState => prevState + 1);
+						setTotalCount(parseInt(response.data.totalCount));
+						setSuccess(response.data.status);
+					}else{
+						setFetching(true);
+					}
 					
 				})
 				.finally(() => setFetching(false))
@@ -78,44 +69,59 @@ function Main(){
 
 	useEffect(() => {
 		document.addEventListener('scroll', scrollHandler);
+		window.addEventListener("resize", scrollHandler);
 		return function (){
 			document.removeEventListener('scroll', scrollHandler);
+			window.removeEventListener("resize", scrollHandler);
 		}
 	}, [])
 
-    const scrollHandler = (e) => {
-		if(e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100){
+
+    const scrollHandler = (e: any) => {
+		if(document.documentElement.scrollHeight - (document.documentElement.scrollTop + window.innerHeight) < 100){
 			setFetching(true);
 		}
 	}
 	const listItems = dataa.map(vote =>
-		<li key={vote.id} id="li">
-			<div id="progress-votes">
-				<progress id="progress"
+		<div key={vote.id}>
+		<li className={styles.li}>
+			<div className={styles.progressVotes}>
+				<progress className={styles.progress}
 						max="100" value={vote.expires}>
 				</progress>
 			</div>
-			<div id="time">
-				<p>{vote.expires_date}</p>
-				<p>{vote.created}</p>
+			<div className={styles.time}>
+				<p className={styles.p}>{vote.expires_date}</p>
+				<p className={styles.p}>{vote.created}</p>
 			</div>
-			<div id="main-votes">
-				<Link id="link-head" href={{ pathname: '/votes/' + vote.id}}><h2><b>{vote.name}</b><br/></h2></Link>
-				<p>{vote.info}</p>
-				<div id="author">
+			
+			<div className={styles.main_votes}>
+				{vote.pinned ? 
+				<div className={styles.pinned}>
+					<img className={styles.pinIco} src="/res/icons/buttons/pushpin.svg"></img>
+					<p className={styles.pinnedText}>Закреплено</p>
+				</div> : ""}
+
+				<Link className={styles.link_head} href={{ pathname: '/votes/' + vote.id}}><h2 className={styles.h2}><b>{vote.name}</b><br/></h2></Link>
+				<p className={styles.p}>{vote.info}</p>
+				<div className={styles.author}>
 					<img
+						className={styles.img}
 						src={"https://visage.surgeplay.com/face/48/" + vote.uuid + "?no=shadow,overlay,ears,cape"}
 						alt={vote.nickname}
 					/>
-					<a href={"/user/" + vote.nickname}>{vote.nickname}</a>
+					<a className={styles.a} href={"/user/" + vote.nickname}>{vote.nickname}</a>
 				</div>
-				<p id="votes_num">{vote.votes_num}</p>
+				<p className={styles.votes_num}>{vote.votes_num}</p>
 			</div>
 		</li>
+		
+		</div>
 	  );
     return (
     <>
-        <ul id="votes">{listItems}</ul>
+        <ul className={styles.ul}>{dataa.length == 0 && !success ? <div className={styles.load}><img className={styles.img} src="/res/icons/logo.png"></img></div> : listItems}</ul>
+		{dataa.length != totalCount && dataa.length != 0 ? <div className={styles.loadrel}><img className={styles.img} src="/res/icons/logo.png"></img></div> : ""}
       
     </>
     )

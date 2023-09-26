@@ -1,8 +1,4 @@
-body{
-    background-color: #222831;
-    font-family: 'Manrope', sans-serif;
-    margin: 0%;
-}
+
 
 .vote{
     margin-top: 1%;
@@ -19,7 +15,7 @@ body{
     margin-bottom: 3%;
 }
 
-#header{
+.header{
     font-size: 200%;
     text-align: left;
     border-radius: 5px;
@@ -31,7 +27,7 @@ body{
     white-space: normal;
 }
 
-#info{
+.info{
     text-align: left;
     font-size: 110%;
     border-radius: 5px;
@@ -41,13 +37,13 @@ body{
     white-space: normal;
 }
 
-#field{
+.field{
     display:grid;
     grid-auto-flow: column;
     align-items: center;
     grid-template-columns: 30% 40% 20% auto;
 }
-#fieldName{
+.fieldName{
     font-size: 90%;
     text-align: left;
     color: #EEEEEE;
@@ -57,36 +53,36 @@ body{
     white-space: normal;
     font-family: 'Manrope', sans-serif;
 }
-#votedCount{
+.votedCount{
     text-align: left;
     color: #EEEEEE;
     margin: 0%;
 }
-hr{
+.hr{
     width: 100%;
 	border: 1px solid #222831;
 	margin: 0%;
 }
-#progress{
+.progress{
     background-color: #222831;
     border-radius: 5px;
     width: 90%;
-    margin-top: 9%;
-    margin-bottom: 9%;
+    margin-top: 5%; 
+    margin-bottom: 5%;
 }
-#progress::-webkit-progress-bar {
+.progress::-webkit-progress-bar {
     background-color: #222831;
     border-radius: 5px;
 }
-#progress::-webkit-progress-value {
+.progress::-webkit-progress-value {
     background: #00ADB5;
     border-radius: 5px;
 }
-#progress::-moz-progress-bar {
+.progress::-moz-progress-bar {
     background: #00ADB5;
     border-radius: 5px;
 }
-#vote_btn{
+.vote_btn{
     border: none;
     padding: 2%;
     background-color: #222831;
@@ -98,20 +94,21 @@ hr{
     cursor: pointer;
     font-family: 'Manrope', sans-serif;
 }
-#author{
+.author{
     display: flex;
     align-items: center;
+    margin-bottom: 1%;
 }
-#author img{
+.author .img{
     border-radius: 10px;
 }
-#author a{
+.author .a{
     text-decoration: none;
     color: #EEEEEE;
     margin-left: 1.5%;
     font-family: 'Manrope', sans-serif;
 }
-#author a:hover{
+.author .a:hover{
     text-decoration: underline;
 }
 
@@ -124,7 +121,7 @@ hr{
     white-space: normal;
 }
 
-.notifier-two{
+.notifier_two{
     font-family: 'Manrope', sans-serif; 
     color: rgb(255, 0, 0);
     display: block;
@@ -134,7 +131,7 @@ hr{
     margin-bottom: 1%;
 }
 
-#load{
+.load{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -144,16 +141,70 @@ hr{
     margin-left: -32px;
     margin-top: -32px;
 }
-#load img{
+.load .img{
     animation: myAnim 3s ease-in-out 0s infinite normal forwards;
 }
-#load p{
+.load .p{
     color: #EEEEEE;
     margin-left: -50%;
 }
-#radio:disabled:checked {
+.radio:disabled:checked {
     filter: brightness(50%);
 }
+
+.moderHeader{
+    text-align: left;
+}
+.deleteButton{
+    display: grid;
+    width: 25px;
+    padding: 5px;
+    background-color: rgb(175, 22, 22);
+    border-radius: 5px;
+    -webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.4);
+    box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.4);
+    margin-bottom: 1%;
+    cursor: pointer;
+}
+.deleteButton:hover .binUp{top: -2px;}
+.binUp{transition: top ease-in-out 0.3s;position: relative; top: 1%;}
+.binDown{position: relative;top: 1%;left: 0%;}
+
+.pinButton{
+    width: 21px;
+    height: 21px;
+    padding: 5px;
+    border: 2px solid rgb(109, 109, 109);
+    border-radius: 5px;
+    -webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.4);
+    box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.4);
+    margin-bottom: 1%;
+    cursor: pointer;
+    text-align: center;
+    margin-right: 1%;
+}
+.binpin{
+    margin-top: auto;
+    width: 20px;
+    color: #EEEEEE;
+    transform:rotate(0deg);
+    -webkit-transition: transform 0.3s ease-in-out;
+
+    
+}
+.pinButton:hover .binpin{
+    transform:rotate(-45deg);
+    -webkit-transition: transform 0.3s ease-in-out;
+}
+
+.binpinA{
+    width: 20px;
+    rotate: -45deg;
+}
+
+
 @keyframes myAnim {
 	0%,
 	50%,
@@ -169,6 +220,7 @@ hr{
 
 @media(max-width: 425px){
     .vote{width: 90%; padding: 3%;}
-    #votedCount{font-size: 90%;}
-    #header{line-height: 100%; font-size: 140%;}
+    .votedCount{font-size: 90%;}
+    .header{line-height: 100%; font-size: 140%;}
+    .progress{margin-top: 9%; margin-bottom: 9%;}
 }

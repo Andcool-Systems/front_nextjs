@@ -1,10 +1,6 @@
-body{
-    background-color: #222831;
-    font-family: 'Manrope', sans-serif;
-    margin: 0%;
-}
 
-header{
+
+.header{
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -13,7 +9,7 @@ header{
     padding-top: 0.3%;
 }
 
-#card{
+.card{
     display:grid;
     align-items: center;
     border-radius: 5px;
@@ -25,9 +21,7 @@ header{
 }
 
 
-
-
-#load{
+.load{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -38,10 +32,10 @@ header{
     margin-top: -32px;
 }
 
-#load img{
+.load .img{
     animation: myAnim 3s ease-in-out 0s infinite normal forwards;
 }
-#load p{
+.load .p{
     color: #EEEEEE;
     margin-left: -50%;
 }
@@ -62,7 +56,6 @@ header{
     margin-top: 1%;
     padding: 1%;
     background-color: #393E46;
-    text-align: center;
     width: 50%;
     margin-left:auto;
     margin-right:auto;
@@ -71,26 +64,27 @@ header{
     -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
     box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
     margin-bottom: 3%;
+    text-align: left;
 }
-#card{
+.card{
     display:flex;
 }
-#nickname{
+.nickname{
     font-family: 'Manrope', sans-serif;
     color: #EEEEEE;
     margin: 0%;
 }
-#nn{
+.nn{
     display: flex;
     align-items: center;
     flex-direction: row;
 }
-#badge{
+.badge{
     width: 26px;
     margin-left: 2%;
 }
-#profile-imgg{border-radius: 10px;}
-#votes-scrollable{
+.profile_imgg{border-radius: 10px;}
+.votes_scrollable{
     background-color: #222831;
     padding: 3%;
     border-radius: 15px;
@@ -99,23 +93,23 @@ header{
     -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
     box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
 }
-#field{
+.field{
     text-align: left;
 }
-hr{
+.hr{
     width: 100%;
 	border: 1px solid #393E46;
 	margin-bottom: 1%;
 }
-#name{
+.name{
     color:#EEEEEE;
     text-decoration: none;
     font-size: 130%;
     text-align: left;
 }
-#name:hover{text-decoration: underline;}
+.name:hover{text-decoration: underline;}
 
-#info{
+.info{
     color:#d1d0d0;
     text-decoration: none;
     font-size: 90%;
@@ -123,33 +117,36 @@ hr{
     margin: 0%;
 }
 
-#voted{
+.voted{
     color: gray;
     margin: 0%;
     margin-top: 1%;
 }
-#uuid{
+.uuid{
     margin: 0%;
     font-family: 'Manrope', sans-serif;
     color: #d1d0d0;
 }
-#card-namee{text-align: left; margin-left: 5%;}
+.card_namee{
+    text-align: left; 
+    margin-left: 3%;
+}
 
-#root{text-align: left;}
+.root{text-align: left;}
 
-#self-hr{
+.self_hr{
     width: 100%;
 	border: 1px solid #222831;
 	margin-bottom: 1%;
 }
-h3{
+.h3{
     margin: 0%;
     color:#EEEEEE;
     margin-bottom: 2%;
     margin-top: 2%;
     text-align: left;
 }
-#root button{
+.root .logout_button{
     border: none;
     cursor: pointer;
     background-color: #222831;
@@ -162,13 +159,42 @@ h3{
     -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
     box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
 }
-
+.banbtn{
+    background-color: rgb(231, 32, 32);
+    padding: 0.5%;
+    padding-right: 0.6%;
+    border-radius: 3px;
+    border: none;
+    font-family: 'Manrope', sans-serif;
+    color:#EEEEEE;
+    -webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.4);
+    box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    margin-left: 0.5%;
+}
+.banbtn:active{
+    -webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0);
+    -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0);
+    box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0);
+}
+.h4{
+    color:#EEEEEE;
+    margin: 0%;
+    margin-bottom: 1%;
+}
 @media(max-width: 425px){
     .user{width: 90%; padding: 3%;}
-    #profile-imgg{width: 85%;}
-    #nickname{font-size: 120%;}
-    #uuid{font-size: 60%;}
-    h3{font-size: 100%;}
-    #logout-button{font-size: 80%;}
-    #badge{width: 16px; height: 16px;}
+    .profile_imgg{width: 85%;}
+    .nickname{font-size: 120%;}
+    .uuid{font-size: 60%;}
+    .h3{font-size: 100%;}
+    .logout_button{font-size: 80%;}
+    .badge{width: 16px; height: 16px;}
+    .ban{
+        margin-left: 3%;
+        padding: 1%;
+        padding-right: 1.1%;
+    }
+    .h4{font-size: 80%; margin-top: 2%;}
 }

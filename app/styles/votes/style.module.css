@@ -1,9 +1,4 @@
-body{
-    background-color: #222831;
-    font-family: 'Manrope', sans-serif;
-    margin: 0%;
-}
-ul{
+.ul{
     display: grid;
     place-items: top;
     list-style-type: none;
@@ -15,7 +10,7 @@ ul{
     grid-auto-rows: max-content;
 }
 
-#li{
+.li{
     display: grid;
     
     background-color: #393E46;
@@ -25,7 +20,7 @@ ul{
     margin-bottom: auto;
 }
 
-#progress{
+.progress{
     position: relative;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
@@ -33,30 +28,30 @@ ul{
     top: -4px; 
 }
 
-#progress::-webkit-progress-bar {
+.progress::-webkit-progress-bar {
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
     
 }
-#progress::-webkit-progress-value {
+.progress::-webkit-progress-value {
     border-top-right-radius: 15px;
     border-top-left-radius: 15px;
     background: #00ADB5;
 }
-#progress::-moz-progress-bar {
+.progress::-moz-progress-bar {
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
     background: #00ADB5;
 }
 
-#progress-votes{
+.progress_votes{
     border-radius: 15px;
 }
 
-#main-votes{
+.main_votes{
     padding: 2%;
 }
-h2{
+.h2{
     margin-top: 0%;
     margin-bottom: 1%;
     text-decoration: none;
@@ -64,21 +59,21 @@ h2{
     word-break: break-word;
     white-space: normal;
 }
-h2:hover{
+.h2:hover{
     text-decoration: underline;
     cursor: pointer;
 }
 
-p{
+.p{
     margin-top: 0%;
     word-break: break-word;
     white-space: normal;
 }
-#link-head{
+.link_head{
     text-decoration: none;
 }
 
-#load{
+.progress-votes{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -88,10 +83,28 @@ p{
     margin-left: -32px;
     margin-top: -32px;
 }
-#load img{
+.load{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: -32px;
+    margin-top: -32px;
+}
+.load .img{
     animation: myAnim 3s ease-in-out 0s infinite normal forwards;
 }
-
+.loadrel{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2%;
+}
+.loadrel .img{
+    animation: myAnim 3s ease-in-out 0s infinite normal forwards;
+}
 @keyframes myAnim {
 	0%,
 	50%,
@@ -104,38 +117,44 @@ p{
 		opacity: 0;
 	}
 }
-#author{
+.author{
     display: flex;
     align-items: center;
 }
 
-#author img{
+.author .img{
     border-radius: 10px;
 }
 
-#author a{
+.author .a{
     text-decoration: none;
     color: #EEEEEE;
     margin-left: 1.5%;
 }
 
-#author a:hover{
+.author .a:hover{
     text-decoration: underline;
 }
 
-#votes_num{
+.votes_num{
     margin-top: 1%;
     margin-bottom: 0%;
     color: gray;
 }
 
-#time{display:flex; justify-content: space-between;}
-#time p{margin-left: 2%; margin-right: 2%; font-size: 90%; margin-bottom: 0%; white-space: nowrap;}
+.time{display:flex; justify-content: space-between;}
+.time .p{margin-left: 2%; margin-right: 2%; font-size: 90%; margin-bottom: 0%; white-space: nowrap;}
+.pinned{
+    display: flex;
+    align-items: center;
+}
+.pinIco{width: 16px; rotate: -45deg;}
+.pinnedText{margin: 0%; margin-left: 1%;}
 
 @media(max-width: 425px){
-    ul{
+    .ul{
         grid-template-columns: repeat(auto-fill, minmax(200px, 300px));
     
     }
-    #time p{font-size: 80%;}
+    .time .p{font-size: 80%;}
 }

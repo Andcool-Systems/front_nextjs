@@ -1,14 +1,5 @@
 
-body {
-    background: #222831;
-    margin: 0;
-    color: white;
-    font-family: 'Manrope', sans-serif;
-    text-align: center;
-}
-
-
-input {
+.input {
     padding: 0.9%;
     width: 16%;
     border-radius: 12px;
@@ -20,8 +11,10 @@ input {
 }
 
 
-
-button {
+.verify_butt{
+    margin-top: 1%;
+}
+.button {
     padding: 10%;
     border-radius: 12px;
     border: none;
@@ -33,14 +26,14 @@ button {
     font-family: 'Manrope', sans-serif;
 }
 
-#main{
+.main{
     display: flex;
     flex-direction: column;
     align-items: center;
     font-family: 'Manrope', sans-serif;
 }
 
-#buttons{
+.buttons{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -57,14 +50,43 @@ button {
     font-family: 'Manrope', sans-serif;
 }
 
-.small_mess.id{
+.small_mess_id{
+    width: 16%;
+    font-size: 80%;
+    text-align: left;
+    margin-bottom: 1%;
+    white-space:nowrap;
+    color: rgb(221, 0, 0);
+    font-family: 'Manrope', sans-serif;
     color: #EEEEEE;
     font-size: 70%;
     margin-bottom: 0%;
     font-family: 'Manrope', sans-serif;
 }
+
+.reg_appl{
+    margin-bottom: 1%;
+    width: 40%;
+    display: none;
+}
+.reg_appl h2{
+    margin-top: 1%;
+}
+.reg_appl p{
+    text-align: left;
+}
+.whi{
+    color:#EEEEEE;
+}
+
+.reg_appl button{
+    padding: 2%;
+}
+.statusVerify{
+    color:red;
+}
 @media(max-width: 425px){
-    input{
+    .input{
         width: 80%;
         padding: 2%;
         margin-bottom: 0.5%;
@@ -72,7 +94,13 @@ button {
     .small_mess{
         width: auto;
     }
-    button{
+    .button{
+        padding: 5%;
+    }
+    .reg_appl{
+        width: 80%;
+    }
+    .reg_appl button{
         padding: 5%;
     }
 }

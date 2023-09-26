@@ -53,9 +53,8 @@ async function getNewTokens(reftoken: string){
 
 
 var api = process.env.NEXT_PUBLIC_API_URL
-export async function register() {
-    var nick = document.getElementById("nick") as HTMLInputElement;
-    var url = "https://api.minetools.eu/uuid/" + nick.value;
+export async function register(userObj: any) {
+    var url = "https://api.minetools.eu/uuid/" + userObj["name"];
     var data = await axios.get(url);
     var obj = data.data;
     var uuid = obj["id"];
@@ -64,7 +63,7 @@ export async function register() {
 
         var url = api + "/register"
         var data = await axios.post(url, {
-            "nickname": nick.value,
+            "nickname": userObj["name"],
             "uuid": uuid,
             "password": password.value
             }, {headers: {"Content-type": "application/json; charset=UTF-8"}}
@@ -76,7 +75,7 @@ export async function register() {
             setTimeout(() => moveToPage("/"), 1000); 
         }
         else{
-            if (obj["message"] == "this user already exists"){
+            if (obj["errorId"] == 5){
                 const usr = document.querySelector("#nickSmall") as Element;
                 usr.textContent = "Имя пользователя уже существует";
             }
@@ -110,15 +109,15 @@ export async function loginUsername() {
             setTimeout(() => moveToPage("/"), 1000); 
         }
         else{
-            if (obj["message"] == "this user already exists"){
+            if (obj["errorId"] == 5){
                 const usr = document.querySelector("#nickSmall") as Element;
                 usr.textContent = "Имя пользователя уже существует";
             }
-            if (obj["message"] == "user not found"){
+            if (obj["errorId"] == 1){
                 const usr = document.querySelector("#nickSmall") as Element;
                 usr.textContent = "Имя пользователя не найдено";
             }
-            if (obj["message"] == "wrong password"){
+            if (obj["errorId"] == 6){
                 const usr = document.querySelector("#passwordSmall") as Element;
                 usr.textContent = "Неправильный пароль";
             }
@@ -143,10 +142,10 @@ export async function login() {
                 setTimeout(() => moveToPage("/"), 1000);        
             }
             else{
-                if (obj["message"] == "invalid refresh token"){
+                if (obj["errorId"] == 4){
                     console.log("invalid refresh token");
                 }
-                if (obj["message"] == "acces token overdated"){
+                if (obj["errorId"] == 2){
                     var res = await getNewTokens(String(getCookie("refreshToken")));
                     if (!res) console.log("to login page");
                     else{

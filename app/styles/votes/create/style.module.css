@@ -1,8 +1,3 @@
-body{
-    background-color: #222831;
-    font-family: 'Manrope', sans-serif;
-    margin: 0%;
-}
 
 .create{
     margin-top: 1%;
@@ -21,7 +16,7 @@ body{
     margin-bottom: 1%;
 }
 
-#header{
+.header{
     width: 70%;
     font-size: 150%;
     border-radius: 5px;
@@ -31,7 +26,7 @@ body{
     font-family: 'Manrope', sans-serif;
 }
 
-#info{
+.info{
     width: 65%;
     font-size: 110%;
     border-radius: 5px;
@@ -42,7 +37,7 @@ body{
     font-family: 'Manrope', sans-serif;
 }
 
-#inputField{
+.inputField{
     background-color: #222831;
     color: #EEEEEE;
     border-radius: 5px;
@@ -50,7 +45,7 @@ body{
     font-family: 'Manrope', sans-serif;
 }
 
-#removeButt{
+.removeButt{
     background-color: #222831;
     color: #EEEEEE;
     border-radius: 5px;
@@ -59,7 +54,7 @@ body{
     font-family: 'Manrope', sans-serif;
 }
 
-#addBtn{
+.addBtn{
     background-color: #222831;
     color: #EEEEEE;
     border-radius: 5px;
@@ -68,7 +63,7 @@ body{
     font-family: 'Manrope', sans-serif;
     
 }
-#submitBtn{
+.submitBtn{
     background-color: #222831;
     color: #EEEEEE;
     border-radius: 5px;
@@ -82,23 +77,23 @@ body{
     -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
     box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
 }
-#notifier{
+.notifier{
     font-family: 'Manrope', sans-serif; 
     color: rgb(221, 0, 0);
     display: none;
     margin: 0%;
 }
-#timeText{
+.timeText{
     margin:0%;
     font-family: 'Manrope', sans-serif;
     color: #EEEEEE;
 }
-hr{
+.hr{
     width: 100%;
 	border: 1px solid #222831;
 	margin-bottom: 1%;
 }
-#dateInput{
+.dateInput{
     background-color: #222831;
     color: #EEEEEE;
     border: none;

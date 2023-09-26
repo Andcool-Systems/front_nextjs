@@ -8,7 +8,7 @@ function setCookiee(c_name: string, value: string)
     document.cookie=c_name + "=" + c_value;
 }
 
-function parseJwt (token: String) {
+export function parseJwt (token: String) {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {

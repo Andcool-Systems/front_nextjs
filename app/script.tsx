@@ -75,10 +75,10 @@ export async function login() {
             }
             
             else{
-                if (obj["message"] == "invalid refresh token"){
+                if (obj["errorId"] == 4){
                     moveToPage("/login/");
                 }
-                if (obj["message"] == "acces token overdated"){
+                if (obj["errorId"] == 2){
                     var res = await getNewTokens(String(getCookiee("refreshToken")));
                     if (!res) moveToPage("/login/");
                     else{

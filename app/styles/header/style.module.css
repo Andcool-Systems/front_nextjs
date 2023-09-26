@@ -1,4 +1,4 @@
-header{
+.header{
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -7,7 +7,7 @@ header{
     padding-top: 0.3%;
 }
 
-#card{
+.card{
     display:grid;
     align-items: center;
     border-radius: 5px;
@@ -19,14 +19,17 @@ header{
 }
 
 
-#card-name{
+.card_name{
     text-decoration: none;
     color: white; 
     padding-left: 6%;
     padding-right: 6%;
     font-size: 100%;
 }
-#profile-img{
+.card_name:hover{
+    text-decoration: underline;
+}
+.profile_img{
     border-radius: 10px;
     margin-top: 4px;
 }
@@ -34,11 +37,13 @@ header{
 
 
 @media(max-width: 425px){
-    #card{
+    .card{
         padding: 2%;
+        padding-top: 0%;
+        padding-bottom: 0%;
         padding-left: 50;
     }
-    #card-name{
+    .card_name{
         display: none;
     }
 }

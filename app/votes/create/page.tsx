@@ -15,7 +15,8 @@ import { HydrationProvider, Server, Client } from "react-hydration-provider";
 import { getCookies, setCookie, deleteCookie, getCookie } from 'cookies-next';
 import { moveToPage } from "../../pages.js"
  
-
+import styles from "../../styles/votes/create/style.module.css";
+import "../../styles/votes/create/style.css"
 
 //import { useSearchParams } from 'next/navigation'
 
@@ -27,7 +28,6 @@ export default function Home() {
 		<>
 		<title>Votes</title>
     	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@800&family=Manrope:wght@600&display=swap" rel="stylesheet"></link>
-    	<link rel="stylesheet" href="/res/votes/create/style.css"></link>
     	<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
 		<QueryClientProvider client={queryClient}>
             <Header />
@@ -75,6 +75,9 @@ async function create(data){
         );
         if (String(answer.data["status"]) == "success"){
             moveToPage("/votes/");
+        }else{
+          notifier.style.display = "block";
+          notifier.textContent = answer.data["message"];
         }
     }else{
         notifier.style.display = "block";
@@ -124,42 +127,44 @@ function DynamicForm(){
   }
 
   return (
-    <div className="create">
+    <div className={styles.create}>
         <input
             id='header'
+            className={styles.header}
             placeholder='Заголовок'
-            maxLength={50}
+            maxLength={100}
         />
         <br />
         <textarea
             id='info'
+            className={styles.info}
             placeholder='Описание'
             maxLength={5000}
         />
         {formFields.map((form, index) => {
           return (
-                <div className='voteField' key={index}>
+                <div className={styles.voteField} key={index}>
                     <input
                         name='vote'
+                        className={styles.inputField}
                         placeholder='Вариант ответа...'
                         onChange={event => handleFormChange(event, index)}
                         value={form.vote}
-                        id="inputField"
                     />
-                    <button onClick={() => removeFields(index)} id="removeButt">-</button>
+                    <button onClick={() => removeFields(index)} className={styles.removeButt}>-</button>
                 </div>
             
           )
         })}
 
-        <button onClick={addFields} id="addBtn">Добавить вариант ответа</button>
+        <button onClick={addFields} className={styles.addBtn}>Добавить вариант ответа</button>
         <br/>
-        <hr></hr>
-        <p id="timeText">Голосование истекает через:</p><br/>
-        <input type="datetime-local" id="dateInput" onFocus={setDate}/>
+        <hr className={styles.hr}></hr>
+        <p className={styles.timeText}>Голосование истекает через:</p><br/>
+        <input className={styles.dateInput} type="datetime-local" id="dateInput" onFocus={setDate}/>
         <br/>
-        <p id="notifier"></p>
-        <button onClick={submit} id="submitBtn">Опубликовать</button>
+        <p id="notifier" className={styles.notifier}></p>
+        <button onClick={submit} className={styles.submitBtn}>Опубликовать</button>
     </div>
   );
 }

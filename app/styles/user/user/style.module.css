@@ -99,7 +99,6 @@
 .hr{
     width: 100%;
 	border: 1px solid #393E46;
-	margin-bottom: 1%;
 }
 .name{
     color:#EEEEEE;
@@ -185,7 +184,6 @@
 }
 @media(max-width: 425px){
     .user{width: 90%; padding: 3%;}
-    .profile_imgg{width: 85%;}
     .nickname{font-size: 120%;}
     .uuid{font-size: 60%;}
     .h3{font-size: 100%;}
@@ -197,4 +195,5 @@
         padding-right: 1.1%;
     }
     .h4{font-size: 80%; margin-top: 2%;}
+    .name{font-size: 110%;}
 }

@@ -25,6 +25,7 @@
     padding-left: 6%;
     padding-right: 6%;
     font-size: 100%;
+    font-family: 'Manrope', sans-serif;
 }
 .card_name:hover{
     text-decoration: underline;

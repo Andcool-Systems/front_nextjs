@@ -1,0 +1,159 @@
+.parent{
+    background-color: #222831;
+    padding: 2%;
+    border-radius: 15px;
+    -webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    padding-bottom: 1%;
+
+}
+
+.comment{
+    /*background-color: #393E46;*/
+    padding: 1%;
+    border-radius: 10px;
+    text-align: left;
+    margin-bottom: 1%;
+    /*-webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);*/
+}
+.header{
+    color: #EEEEEE;
+    text-align: left;
+    margin-top: 1%;
+}
+
+.user{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.userContainer{
+    display: flex;
+    align-items: flex-start;
+}
+
+.userName{
+    color: #EEEEEE;
+    margin: 0%;
+    margin-left: 5px;
+    font-size: 110%;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'Manrope', sans-serif;
+    white-space: nowrap;
+
+}
+.userName:hover{text-decoration: underline;}
+.createdAt{
+    color: gray;
+    margin: 0%;
+    margin-left: 1%;
+    font-size: 90%;
+    font-family: 'Manrope', sans-serif;
+    white-space: nowrap;
+}
+
+.img{
+    border-radius: 10px;
+    width:auto;
+}
+
+.p{
+    color:#EEEEEE;
+    font-size: 100%;
+    margin: 0%;
+    margin-top: 1.5%;
+    margin-left: 38px;
+    white-space: pre-wrap
+}
+
+.main{
+    position: relative;
+    top: -15px;
+}
+.child{
+    margin-bottom: 1%;
+    display: flex;
+    align-items: center;
+}
+.createInput{
+    background-color: #393E46;
+    border: none;
+    border-radius: 15px;
+
+    font-size: 110%;
+    width: 100%;
+    color: #EEEEEE;
+    padding-left: 1%;
+    min-width: 80%;
+    min-height: 50px;
+    max-height: 500px;
+    box-sizing: border-box;
+    -webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    font-family: 'Manrope', sans-serif;
+
+}
+.sendimg{
+    width: 24px;
+    background-color: #00ADB5;
+    padding: 1%;
+    cursor: pointer;
+    margin-left: 1%;
+    border-radius: 15px;
+    -webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+}
+.loadrel{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2%;
+}
+.loadrel .imgLoad{
+    animation: myAnim 3s ease-in-out 0s infinite normal forwards;
+}
+
+@keyframes myAnim {
+	0%,
+	50%,
+	100% {
+		opacity: 1;
+	}
+
+	25%,
+	75% {
+		opacity: 0;
+	}
+}
+
+.deleteButton{
+    display: grid;
+    width: 25px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.deleteButton:hover .binUp{top: -2px;}
+.binUp{transition: top ease-in-out 0.3s;position: relative; top: 1%;}
+.binDown{position: relative;top: 1%;left: 0%;}
+
+.blank{position: relative;}
+.blankp{color: #EEEEEE; font-family: 'Manrope', sans-serif;}
+
+@media(max-width: 425px){
+    .userName{font-size: 60%; margin-top: 3%;}
+    .createdAt{font-size: 60%; margin-top: 3%;}
+    .p{font-size: 70%}
+    .deleteButton{width: 15px;}
+    .binUp{width: 15px;}
+    .binDown{width: 15px;}
+    .header{font-size: 100%;}
+    .createInput{font-size: 90%; min-height: 40px;}
+    .sendimg{width: 16px; padding: 2%;}
+}

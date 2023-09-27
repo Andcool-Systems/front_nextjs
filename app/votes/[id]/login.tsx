@@ -101,7 +101,7 @@ export async function loadVote(id){
     if (String(getCookiee("accessToken")) != "undefined"){
         if (checkAccess(String(getCookiee("accessToken")))){
 
-            var url = api + "/voteById/" + id.queryKey[1]
+            var url = api + "/voteById/" + id
             var data = await axios.get(url, {headers: {"Content-type": "application/json; charset=UTF-8", 
                 "Authorization": "Bearer " + getCookiee("accessToken")
                 }}

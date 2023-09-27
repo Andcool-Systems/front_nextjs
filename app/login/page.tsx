@@ -113,7 +113,7 @@ export default function Home() {
             <div id="main" className={styles.main}>
                 <h2>Войти</h2>
                 <input className={styles.input} type="nick" id="nick" name="nick" placeholder="Никнейм майнкрафт" onInput={ updnick } onChange={ updNickOnChange }></input>
-                <a className={styles.small_mess_id} id="nickSmallid"></a>
+                <div className={styles.small_div_id}><a className={styles.small_mess_id} id="nickSmallid"></a></div>
                 <a className={styles.small_mess} id="nickSmall">Введите свой никнейм</a>
                 <input className={styles.input} type="password" id="password" name="password" placeholder="Пароль" onInput={ updpass }></input>
                 <a className={styles.small_mess} id="passwordSmall">Введите пароль</a>

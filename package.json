@@ -19,6 +19,8 @@
     "cookies-next": "^3.0.0",
     "dotenv": "^16.3.1",
     "i": "^0.3.7",
+    "marked": "^9.0.3",
+    "marked-react": "^2.0.0",
     "next": "13.4.19",
     "next-client-cookies": "^1.0.3",
     "next-mdx-remote": "^4.4.1",

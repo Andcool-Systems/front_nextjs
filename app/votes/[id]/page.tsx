@@ -19,7 +19,7 @@ import { ru_voted } from "./ru_voted.tsx"
 import styles from "../../styles/votes/vote/style.module.css";
 import commentStyle from "../../styles/votes/vote/comment.module.css";
 import "../../styles/votes/vote/style.css"
-
+import { authApi, returnToLogin } from "../../APImanager.tsx"
  
 
 const queryClient = new QueryClient();
@@ -59,12 +59,10 @@ async function vote(){
         notifier.style.display = "none";
         notifier.textContent = "";
 
-        let url = api + "/vote"
-        let answer = await axios.post(url, {
+        let url = "/vote"
+        let answer = await authApi.post(url, {
                 "field_id": select
-                
-            }, {headers: {"Content-type": "application/json; charset=UTF-8", 
-                "Authorization": "Bearer " + getCookie("accessToken")}}
+            }
             );
         if (String(answer.data["status"]) == "success"){
             console.log(":");
@@ -86,13 +84,10 @@ async function unvote(id: number){
       //notifier.style.display = "none";
       //notifier.textContent = "";
 
-      let url = api + "/unvote"
-      let answer = await axios.post(url, {
+      let url = "/unvote"
+      let answer = await authApi.post(url, {
               "vote_id": id
-              
-          }, {headers: {"Content-type": "application/json; charset=UTF-8", 
-              "Authorization": "Bearer " + getCookie("accessToken")}}
-          );
+          });
       if (String(answer.data["status"]) == "success"){
           location.reload();
       }else{
@@ -106,12 +101,10 @@ async function deleteVote(id: number){
     let confirmation = confirm("Точно? Отменить это действие будет невозможно!");
 
     if (confirmation){
-        let url = api + "/deleteVote"
-        let answer = await axios.post(url, {
+        let url = "/deleteVote"
+        let answer = await authApi.post(url, {
             "vote_id": id
-        }, {headers: {"Content-type": "application/json; charset=UTF-8", 
-                "Authorization": "Bearer " + getCookie("accessToken")}}
-        );
+        });
         if (String(answer.data["status"]) == "success"){
             moveToPage("/votes/");
         }
@@ -124,12 +117,10 @@ async function deleteVote(id: number){
 }
 async function pin(id: number){
     if (true){
-        let url = api + "/pin"
-        let answer = await axios.post(url, {
+        let url = "/pin"
+        let answer = await authApi.post(url, {
             "vote_id": id
-        }, {headers: {"Content-type": "application/json; charset=UTF-8", 
-                "Authorization": "Bearer " + getCookie("accessToken")}}
-        );
+        });
         if (String(answer.data["status"]) == "success"){
             let pardonbutt = document.getElementById("binpin");
 		    let butt = document.getElementById("binpinA");
@@ -159,14 +150,12 @@ function containsOnlySpaces(str: string) {
 async function sendComment(id: number){
     let mess = document.getElementById("createInput") as HTMLInputElement;
     if (!containsOnlySpaces(mess.value)){
-        let url = api + "/comment"
+        let url = "/comment"
         
-        let answer = await axios.post(url, {
+        let answer = await authApi.post(url, {
             "vote_id": id,
             "text": mess.value
-        }, {headers: {"Content-type": "application/json; charset=UTF-8", 
-                "Authorization": "Bearer " + getCookie("accessToken")}}
-        );
+        });
         if (String(answer.data["status"]) == "success"){
             location.reload();
             
@@ -182,13 +171,11 @@ async function sendComment(id: number){
 async function deleteComment(id: number){
     let answer = confirm("Удалить? Точно? Отменить это действие будет невозможно!");
     if (answer){
-        let url = api + "/deleteComment"
+        let url = "/deleteComment"
             
-        let answer = await axios.post(url, {
+        let answer = await authApi.post(url, {
             "id": id,
-        }, {headers: {"Content-type": "application/json; charset=UTF-8", 
-                "Authorization": "Bearer " + getCookie("accessToken")}}
-        );
+        });
         if (String(answer.data["status"]) == "success"){
             location.reload();
                 
@@ -248,10 +235,8 @@ function DynamicForm({id}){
 
     useEffect(() => {
 		if (fetching && dataa.length < totalCount){
-			const url = api + `/comments?page=${currentPage}&count=20&vote_id=` + id;
-			axios.get(url, {headers: {"Content-type": "application/json; charset=UTF-8", 
-					"Authorization": "Bearer " + getCookie("accessToken")
-					}}
+			const url = `/comments?page=${currentPage}&count=20&vote_id=` + id;
+			authApi.get(url
 				).then(response => {
 					if (response.data.status == "success"){
 						setData([...dataa, ...response.data.data]);
@@ -316,8 +301,10 @@ function DynamicForm({id}){
                         src={"https://visage.surgeplay.com/face/33/" + comment.uuid + "?no=shadow,overlay,ears,cape"}
                         alt={comment.nickname}
                         />
-                    <a className={commentStyle.userName} href={"/user/" + comment.nickname}>{comment.nickname}</a>
-                    <a className={commentStyle.createdAt}>{comment.createdAt}</a>
+                    <div className={commentStyle.uuidandname}>
+                        <a className={commentStyle.userName} href={"/user/" + comment.nickname}>{comment.nickname}</a>
+                        <a className={commentStyle.createdAt}>{comment.createdAt}</a>
+                    </div>
                 </div>
                 {perms == "moderator" || comment.self ? 
                 <div className={commentStyle.deleteButton} onClick={() => deleteComment(comment.id)} title="Удалить комментарий">

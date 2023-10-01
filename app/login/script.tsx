@@ -3,7 +3,7 @@ import { getCookies, setCookie, deleteCookie, getCookie } from 'cookies-next';
 import { useRouter } from 'next/router'
 import { moveToPage } from "./pages"
 
-function setCookiee(c_name: string, value: string)
+export function setCookiee(c_name: string, value: string)
 {
     var c_value=escape(value) + "; path=/";
     document.cookie=c_name + "=" + c_value;

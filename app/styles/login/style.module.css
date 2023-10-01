@@ -1,4 +1,69 @@
 
+
+  
+  
+  
+  .accordion {
+    border-bottom: none;
+    margin-top: 1rem;
+    text-align: center;
+  }
+  
+  .item {
+    border-bottom: none;
+  }
+  
+  .itemBtn {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    width: 80%;
+    margin: 0;
+    padding: 1rem;
+    font-size: 1rem;
+    color: #EEEEEE;
+    background-color: #393E46;
+    border: none;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0.5%;
+    border-radius: 15px;
+    -webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.4);
+    box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.4);
+    font-family: 'Manrope', sans-serif;
+  }
+  
+
+  .itemBtnExpanded {
+    background-color: #393E46;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 15px;
+    -webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.4);
+    box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.4);
+
+  }
+  
+  .itemContent {
+    transition: height 0.25s cubic-bezier(0, 0, 0, 1);
+  }
+  
+  .itemPanel {
+    padding: 1rem;
+  }
+  
+  .chevron {
+    
+    margin-left: auto;
+    transition: transform 0.25s cubic-bezier(0, 0, 0, 1);
+  }
+  
+  .itemBtnExpanded .chevron {
+    transform: rotate(180deg);
+  }
+  
 .input {
     padding: 0.9%;
     width: 16%;
@@ -8,22 +73,26 @@
     color: #EEEEEE;
     border-color: red;
     font-family: 'Manrope', sans-serif;
+    -webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.4);
+    box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.4);
 }
 
 
-.verify_butt{
-    margin-top: 1%;
-}
+
 .button {
-    padding: 10%;
+    padding: 1%;
     border-radius: 12px;
     border: none;
     background-color: #393E46;
     color: #EEEEEE;
-    margin-left: 2%;
+    font-size: 90%;
     cursor: pointer;
     white-space:nowrap;
     font-family: 'Manrope', sans-serif;
+    -webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.4);
+    box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.4);
 }
 
 .main{
@@ -33,19 +102,43 @@
     font-family: 'Manrope', sans-serif;
 }
 
-.buttons{
+.card{
+    display: none;
+    background-color: #393E46;
+    padding: 1%;
+    border-radius: 15px;
+    -webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.4);
+    box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.4);
+    margin-bottom: 1%;
+    
+}
+.profile_name_div{
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     justify-content: center;
+    margin-left: 2%;
+}
+.card_name{
+    font-size: 110%;
+    font-family: 'Manrope', sans-serif;
+    color: #EEEEEE;
+}
+.card_uuid{
+    color: gray;
+    font-size: 90%;
     font-family: 'Manrope', sans-serif;
 }
-
+.profile_img{
+    border-radius: 10px;
+}
 .small_mess{
     width: 16%;
     font-size: 80%;
     text-align: left;
     margin-bottom: 1%;
-    white-space:nowrap;
+    white-space:wrap;
     color: rgb(221, 0, 0);
     font-family: 'Manrope', sans-serif;
 }
@@ -61,7 +154,7 @@
     color: #EEEEEE;
     font-size: 70%;
     margin-bottom: 0%;
-    font-family: 'Manrope', sans-serif;
+
 }
 
 .reg_appl{
@@ -85,6 +178,25 @@
 .statusVerify{
     color:red;
 }
+.child{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.h2{
+    margin-top: 0%;
+}
+.server{
+    text-decoration: underline;
+    cursor: pointer;
+}
+.h4{
+    width: 80%;
+    white-space: wrap;
+    margin-top: 0%;
+}
 @media(max-width: 425px){
     .input{
         width: 80%;
@@ -103,6 +215,15 @@
     }
     .reg_appl button{
         padding: 5%;
+    }
+    .card{
+        margin-left: 1%;
+        margin-right: 1%;
+        padding: 3%;
+    }
+    .card_uuid{
+        font-size: 60%;
+        white-space: wrap;
     }
 }
 

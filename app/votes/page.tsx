@@ -16,6 +16,7 @@ import { HydrationProvider, Server, Client } from "react-hydration-provider";
 import { getCookie } from 'cookies-next';
 import styles from "../styles/votes/style.module.css";
 import "../styles/votes/style.css"
+import { authApi, returnToLogin } from "../APImanager.tsx"
 
 const queryClient = new QueryClient();
 
@@ -48,10 +49,8 @@ function Main(){
 
 	useEffect(() => {
 		if (fetching && dataa.length < totalCount){
-			const url = api + `/votes?page=${currentPage}&count=20`
-			axios.get(url, {headers: {"Content-type": "application/json; charset=UTF-8", 
-					"Authorization": "Bearer " + getCookie("accessToken")
-					}}
+			const url = `/votes?page=${currentPage}&count=20`
+			authApi.get(url
 				).then(response => {
 					if (response.data.status == "success"){
 						setData([...dataa, ...response.data.data]);
@@ -59,7 +58,7 @@ function Main(){
 						setTotalCount(parseInt(response.data.totalCount));
 						setSuccess(response.data.status);
 					}else{
-						setFetching(true);
+						
 					}
 					
 				})

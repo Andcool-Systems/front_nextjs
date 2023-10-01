@@ -145,28 +145,11 @@ export async function logout() {
 }
 
 export async function loadUser(id){
-    if (String(getCookiee("accessToken")) != "undefined"){
-        if (checkAccess(String(getCookiee("accessToken")))){
-
-            var url = api + "/user/" + id.queryKey[1]
-            var data = await axios.get(url, {headers: {"Content-type": "application/json; charset=UTF-8", 
-                "Authorization": "Bearer " + getCookiee("accessToken")
-                }}
-            );
-            var obj = data.data;
-            return obj;
-        }else{
-            var res = await getNewTokens(String(getCookiee("refreshToken")));
-            if (!res) moveToPage("/login/");
-            else{
-                setTimeout(() => login(), 1000);
-            }
-        }
-    }else{
-        var res = await getNewTokens(String(getCookiee("refreshToken")));
-        if (!res) moveToPage("/login/");
-        else{
-            setTimeout(() => login(), 1000);
-        } 
-    }
+    var url = api + "/user/" + id.queryKey[1]
+    var data = await axios.get(url, {headers: {"Content-type": "application/json; charset=UTF-8", 
+            "Authorization": "Bearer " + getCookiee("accessToken")
+            }}
+    );
+    var obj = data.data;
+    return obj;
 }

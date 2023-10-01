@@ -185,6 +185,9 @@
     text-align: center;
     margin-right: 1%;
 }
+.cookie{
+    border: 1% solid black;
+}
 .binpin{
     margin-top: auto;
     width: 20px;

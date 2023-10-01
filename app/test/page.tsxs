@@ -1,0 +1,51 @@
+"use client";
+
+import React, { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+
+const EmojiReplacer = () => {
+  const [text, setText] = useState('');
+
+  const replaceEmojis = (inputText) => {
+    // Регулярное выражение для поиска текста внутри двоеточий
+    const regex = /:(\w+):/g;
+
+    // Замена текста между двоеточиями на Markdown-ссылку на изображение
+    const replacedText = inputText.replace(regex, (match, emojiName) => {
+      // Ваши сопоставления emojiName и URL изображения
+      
+      const emojiMappings = {
+        cat: '/res/emotes/cat.png',
+
+      };
+
+      // Если есть сопоставление для emojiName, заменяем его на Markdown-ссылку
+      if (emojiMappings[emojiName]) {
+        return `![${emojiName}](${emojiMappings[emojiName]})`;
+      }
+      // Если сопоставления нет, возвращаем исходный текст
+      return match;
+    });
+
+    return replacedText;
+  };
+
+  const handleInputChange = (e) => {
+    const newText = e.target.value;
+    setText(newText);
+  };
+
+  return (
+    <div>
+      <textarea
+        value={text}
+        onChange={handleInputChange}
+        rows={4}
+        cols={50}
+      />
+      <ReactMarkdown children={replaceEmojis(text)} />
+    </div>
+  );
+};
+
+export default EmojiReplacer;

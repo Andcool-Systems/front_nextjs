@@ -1,18 +1,26 @@
 "use client";
 let currentPage = 0;
 import Script from "next/script"
-import {register, loginUsername, login } from "./script.tsx"
+import {loginUsername, login, setCookiee } from "./script.tsx"
 //import {updpass, updnick} from "./events"
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from "../styles/login/style.module.css";
 import "../styles/login/style.css"
+import { Accordion, AccordionItem as Item } from "@szhsin/react-accordion";
+import { moveToPage } from "./pages"
+
 
 var loginFlag = false;
+var loginFlagCode = false;
+var api = process.env.NEXT_PUBLIC_API_URL
+var lastSuccess = {};
+function containsOnlySpaces(str) {
+    return str.trim().length === 0;
+  }
 export default function Home() {
-  const [startVal, setStartVal] = useState(false);
-  const [verified, setVerified] = useState(false);
-  const [user, setUser] = useState(false);
+  //const [lastSuccess, setLastSuccess] = useState({});
+
   function updpass(){
     var username = document.getElementById("password") as HTMLInputElement;
         
@@ -21,6 +29,18 @@ export default function Home() {
         usr.textContent = "";
     }else{
         const usr = document.querySelector("#passwordSmall") as Element;
+        usr.textContent = "Введите пароль";
+    }
+  }
+
+  function updpasscode(){
+    var username = document.getElementById("passwordCode") as HTMLInputElement;
+        
+    if (username.value != ""){
+        const usr = document.querySelector("#passwordSmallcode") as Element;
+        usr.textContent = "";
+    }else{
+        const usr = document.querySelector("#passwordSmallcode") as Element;
         usr.textContent = "Введите пароль";
     }
   }
@@ -44,6 +64,25 @@ export default function Home() {
 
   }
 
+  function updcode(){
+    var nick = document.getElementById("code") as HTMLInputElement;
+    if (nick.value != ""){
+        const nickn = document.querySelector("#codeSmall") as Element;
+        nickn.textContent = "";
+    }else{
+        const nickn = document.querySelector("#codeSmall") as Element;
+        nickn.textContent = "Введите код";
+    }
+    if (loginFlagCode == false){
+        const form = document.getElementById("code") as Element;
+        form.addEventListener("focusout", (event) => {
+            parseCode();
+        });
+        loginFlagCode = true;
+    }
+
+}
+
   async function parseNick(){
       var nick = document.getElementById("nick") as HTMLInputElement;
       var url = "https://api.minetools.eu/uuid/" + nick.value;
@@ -60,83 +99,111 @@ export default function Home() {
           if (obj["name"] != undefined){
                 nick.value = obj["name"];
                 nickid.textContent = "uuid: " + obj["id"];
-                let namemcResponse = (await axios.get("https://api.namemc.com/server/play.pepeland.net/likes?profile=" + obj["id"])).data
-                setStartVal(namemcResponse);
-                setUser(obj);
-                const namemcStart = document.querySelector("#start-value") as Element;
-                namemcStart.textContent = namemcResponse ? "лайк установлен" : "лайк не установлен"
-                const namemcNow = document.querySelector("#value-namemc") as Element;
-                namemcNow.textContent = namemcResponse ? "Для продолжения снимите его" : "Для продолжения поставьте лайк"
+                //setStartVal(namemcResponse);
+                //setUser(obj);
 
           }else{nickn.textContent = "Никнейм не найден";}
   }
 
-  async function checkRegistr(){
-    let response = (await axios.get("https://api.namemc.com/server/play.pepeland.net/likes?profile=" + user["id"])).data;
-    const status = document.getElementById("statusVerify");
-    
-    if (!startVal == response) {
-        console.log("verified!"); 
-        setVerified(true);
-        status.style.color = "green";
-        status.textContent = "Подтверждён"
+  async function parseCode(){
+    const nickn = document.querySelector("#codeSmall") as Element;
+    let code = document.getElementById("code") as HTMLInputElement;
+    if (!containsOnlySpaces(code.value)){
+        let url = api + "/auth/v2/token/" + code.value;
+        let data = await axios.get(url);
+        if (data.data["status"] == "success"){
+            //console.log(data.data);
+            lastSuccess = data.data;
+            console.log(lastSuccess);
+            const card = document.getElementById("card");
+            card.style.display = "flex";
+            (document.getElementById("profile-img") as HTMLImageElement).src = "https://visage.surgeplay.com/face/56/" + data.data["response"]["uuid"] + "?no=shadow,overlay,ears,cape"
+        }else{
+            nickn.textContent = data.data["message"];
+        }
     }
-    else {
-        console.log("no"); 
-        setVerified(false);
-        status.style.color = "red";
-        status.textContent = "Не подтверждён"
+}
+    async function register(){
+        var pass = document.getElementById("passwordCode") as HTMLInputElement;
+        if (!containsOnlySpaces(pass.value) && lastSuccess["status"] == "success"){
+            let url = api + "/auth/v2/register";
+            let data = await axios.post(url, {"password": pass.value, "token": lastSuccess["response"]["token"]});
+            if (data.data["status"] == "success"){
+                setCookiee("accessToken", data.data["accessToken"]);
+                setCookiee("refreshToken", data.data["refreshToken"]);
+                setTimeout(() => moveToPage("/"), 1000); 
+            }
+            else{
+                const errmess = document.querySelector("#registerError") as Element;
+                errmess.textContent = data.data["message"];
+                console.log(data.data["message"]);
+            }
+        }
     }
-  }
+  
 
-  function updNickOnChange(){
-    const status = document.getElementById("statusVerify");
-    status.style.color = "red";
-    status.textContent = "Не подтверждён"
-    setVerified(false);
-    const RegMess = document.getElementById("reg_appl");
-    RegMess.style.display = "none";
-  }
-  function showAlert(){
-    var nick = document.getElementById("nick") as HTMLInputElement;
-      if (nick.value != "" && user["status"] != "ERR"){
-        document.getElementById("reg_appl").style.display = "block"
+  const AccordionItem = ({ header, ...rest }) => (
+    <Item
+      {...rest}
+      header={
+        <>
+          {header}
+          <img className={styles.chevron} src="/res/icons/arrow.png" alt="Chevron Down" />
+        </>
       }
-  }
+      className={styles.item}
+      buttonProps={{
+        className: ({ isEnter }) =>
+          `${styles.itemBtn} ${isEnter && styles.itemBtnExpanded}`
+      }}
+      contentProps={{ className: styles.itemContent }}
+      panelProps={{ className: styles.itemPanel }}
+    />
+  );
   return (
     <>
-
         <title>oauth test</title>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@800&family=Manrope:wght@600&display=swap" rel="stylesheet"></link>
         <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
-
-            <div id="main" className={styles.main}>
-                <h2>Войти</h2>
-                <input className={styles.input} type="nick" id="nick" name="nick" placeholder="Никнейм майнкрафт" onInput={ updnick } onChange={ updNickOnChange }></input>
-                <div className={styles.small_div_id}><a className={styles.small_mess_id} id="nickSmallid"></a></div>
-                <a className={styles.small_mess} id="nickSmall">Введите свой никнейм</a>
-                <input className={styles.input} type="password" id="password" name="password" placeholder="Пароль" onInput={ updpass }></input>
-                <a className={styles.small_mess} id="passwordSmall">Введите пароль</a>
-                <div id="reg_appl" className={styles.reg_appl}>
-                    <h2>Подтверждение</h2>
-                    <p>Теперь нам нужно понять, что Вы - владелец этого аккаунта. <br/> 
-                    Для этого Вам нужно иметь подтверждённую учётную запись на сайте <strong>namemc.com</strong><br/><br/>
-                    Для подтверждения, перейдите на сайт <a href="https://ru.namemc.com/server/play.pepeland.net" target="_blank" className={styles.whi}>namemc.com</a>.<br/>
-                    Теперь, Вам нужно поставить лайк на сервер Пепеленд, или снимите его, если он уже стоит. 
-                    (После успешной регистрации Вы можете вернуть всё обратно)<br/></p>Сейчас <a className={styles.whi} id="start-value"></a><br/>
-                    <a id="value-namemc" className={styles.whi}></a><br/>
-                    <a className={styles.whi}>Статус: </a><a id="statusVerify">Не подтверждён</a><br/>
-                    <button className={styles.button} onClick={ checkRegistr } id="verify_butt">Проверить</button>
-                </div>
-
-                <div id="buttons" className={styles.buttons}>
-                    <button onClick={ loginUsername } className={styles.button}>Войти</button>
-                    <button onClick={ verified ? () => register(user) : showAlert} className={styles.button}>Зарегистрироваться</button>
-                </div>
-                
+        <div className={styles.accordion}>
+        <Accordion transition transitionTimeout={250}>
+            <AccordionItem header="Войти" initialEntered>
+                <div className={styles.child}>
+                    <h2 className={styles.h2}>Войти</h2>
+                    <input className={styles.input} type="nick" id="nick" name="nick" placeholder="Никнейм майнкрафт" onInput={ updnick }></input>
+                    <div className={styles.small_div_id}><a className={styles.small_mess_id} id="nickSmallid"></a></div>
+                    <a className={styles.small_mess} id="nickSmall">Введите свой никнейм</a>
+                    <input className={styles.input} type="password" id="password" name="password" placeholder="Пароль" onInput={ updpass }></input>
+                    <a className={styles.small_mess} id="passwordSmall">Введите пароль</a>
                     
-            </div>
-    
+                    
+                    <button onClick={ loginUsername } className={styles.button}>Войти</button>
+                </div>
+            </AccordionItem>
+            <AccordionItem header="Зарегистрироваться">
+                <div className={styles.child}>
+                    <h2 className={styles.h2}>Зарегистрироваться</h2>
+                    <h4 className={styles.h4}>Для получения кода, зайдите на Майнкрафт сервер <a onClick={() => {navigator.clipboard.writeText("auth.mc-oauth.com"); alert("Скопировано!")}} className={styles.server}>auth.mc-oauth.com</a> и получите там код</h4>
+                    <div className={styles.card} id="card">
+                        <img id="profile-img" className={styles.profile_img} src = "https://visage.surgeplay.com/face/56/1420c63cb1114453993fb3479ba1d4c6?no=shadow,overlay,ears,cape"></img>
+                        <div className={styles.profile_name_div}>
+                            <a id="card-name" className={styles.card_name}>AndcoolSystems</a>
+                            <a id="card-uuid" className={styles.card_uuid}>1420c63cb1114453993fb3479ba1d4c6</a>
+                        </div>
+                    </div>
+                    <input className={styles.input} type="number" id="code" name="code" placeholder="Код" onInput={ updcode }></input>
+                    <div className={styles.small_div_id}><a className={styles.small_mess_id} id="codeSmallid"></a></div>
+                    <a className={styles.small_mess} id="codeSmall">Введите код</a>
+                    <input className={styles.input} type="password" id="passwordCode" name="passwordCode" placeholder="Пароль" onInput={ updpasscode }></input>
+                    <a className={styles.small_mess} id="passwordSmallcode">Введите пароль</a>
+                    
+                    <a className={styles.small_mess} id="registerError"></a>
+                    <button onClick={() => register()} className={styles.button}>Зарегистрироваться</button>
+                </div>
+            </AccordionItem>
+            
+        </Accordion>
+    </div>
     </>
   )
 }

@@ -1,7 +1,11 @@
 import axios from 'axios';
 import { getCookies, setCookie, deleteCookie, getCookie } from 'cookies-next';
 import { moveToPage } from "./pages"
-
+import {
+    QueryClient,
+    QueryClientProvider,
+    useQuery,
+  } from 'react-query';
 function setCookiee(c_name: string, value: string)
 {
     var c_value=escape(value) + "; path=/";
@@ -75,12 +79,13 @@ export async function login() {
             }
             
             else{
+                console.log(obj);
                 if (obj["errorId"] == 4){
-                    moveToPage("/login/");
+                    //moveToPage("/login/");
                 }
                 if (obj["errorId"] == 2){
                     var res = await getNewTokens(String(getCookiee("refreshToken")));
-                    if (!res) moveToPage("/login/");
+                    if (!res) console.log(2); //moveToPage("/login/"); 
                     else{
                         setTimeout(() => login(), 1000);
                     }          
@@ -88,14 +93,14 @@ export async function login() {
             }      
         }else{
             var res = await getNewTokens(String(getCookiee("refreshToken")));
-            if (!res) moveToPage("/login/");
+            if (!res) console.log(1); //moveToPage("/login/");
             else{
                 setTimeout(() => login(), 1000);
             }
         }
     }else{
         var res = await getNewTokens(String(getCookiee("refreshToken")));
-        if (!res) if (window.location.pathname != "/") moveToPage("/login/");
+        if (!res) if (window.location.pathname != "/") console.log(3); //moveToPage("/login/");
         else{
             setTimeout(() => login(), 1000);
         } 

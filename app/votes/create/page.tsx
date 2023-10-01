@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from 'react';
-import axios, { AxiosResponse } from 'axios';
 import React from 'react';
 import {
   QueryClient,
@@ -18,7 +17,7 @@ import { moveToPage } from "../../pages.js"
 import styles from "../../styles/votes/create/style.module.css";
 import "../../styles/votes/create/style.css"
 
-//import { useSearchParams } from 'next/navigation'
+import { authApi, returnToLogin } from "../../APImanager.tsx"
 
 const queryClient = new QueryClient();
 
@@ -59,8 +58,8 @@ async function create(data){
     if (filled){
         notifier.style.display = "none";
         notifier.textContent = "";
-        let url = api + "/createPost"
-        let answer = await axios.post(url, {
+        let url = "/createPost"
+        let answer = await authApi.post(url, {
             params: {
                 "header": header.value,
                 "info": info.value,
@@ -70,8 +69,7 @@ async function create(data){
             paramsSerializer: (params: any) => {
                 return qs.stringify(params)
             }
-        }, {headers: {"Content-type": "application/json; charset=UTF-8", 
-            "Authorization": "Bearer " + getCookie("accessToken")}}
+        }
         );
         if (String(answer.data["status"]) == "success"){
             moveToPage("/votes/");

@@ -1,4 +1,5 @@
 "use client";
+
 import Script from "next/script"
 import { DetailedHTMLProps, JSXElementConstructor, Key, PromiseLikeOfReactNode, ReactElement, ReactNode, ReactPortal, useEffect } from 'react';
 import { loadUser, logout, parseJwt } from "./script.tsx"
@@ -17,6 +18,7 @@ import {
 
 import styles from "../../styles/user/user/style.module.css";
 import "../../styles/login/style.css"
+import { authApi, returnToLogin } from "../../APImanager.tsx"
 const queryClient = new QueryClient();
 
 export default function Home({ params }: { params: { name: string } }) {
@@ -32,7 +34,7 @@ export default function Home({ params }: { params: { name: string } }) {
         
         <HydrationProvider>
             <Client>
-                  <Header />
+                  <Header/>
 				  <ToastContainer
 					position="top-right"
 					autoClose={2000}
@@ -134,9 +136,13 @@ async function pardon(id: number){
 
     
 }
+async function getUser(id){
+	let response = (await authApi.get("/user/" + id)).data;
+	return response;
+}
 function DynamicForm({id}){
-  
-    const {data, isLoading, isError} = useQuery(['votes', id], loadUser);
+
+    const {data, isLoading, isError} = useQuery(['votes', id], () => (getUser(id)));
       
       if (isLoading || isError || !data) return (
           <div className={styles.load}>
@@ -144,13 +150,16 @@ function DynamicForm({id}){
               </div>
           );
         
-    if (isError || !data) return (
+    if (isError || !data) {
+		return (
+		
         <div className={styles.load}>
           <img className={styles.img} src="/res/icons/logo.png"></img>
           </div>
         );
+	}
         
-    if (data.status == "error") return <div id="load"><p>{data.message}</p></div>;
+    if (data.status == "error") {return <div id="load"><p>{data.message}</p></div>};
 
     const votes = (data.votes).map((vote: { id: Key; name: string; info: string; votedNum: string}) =>
       <div key={vote.id}>

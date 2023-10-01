@@ -145,7 +145,10 @@
 
 .blank{position: relative;}
 .blankp{color: #EEEEEE; font-family: 'Manrope', sans-serif;}
-
+.uuidandname{
+    display:flex;
+    align-items: flex-end;
+}
 @media(max-width: 425px){
     .userName{font-size: 60%; margin-top: 3%;}
     .createdAt{font-size: 60%; margin-top: 3%;}

@@ -19,7 +19,7 @@
     align-items: center;
     width: 80%;
     margin: 0;
-    padding: 1rem;
+    padding: 1%;
     font-size: 1rem;
     color: #EEEEEE;
     background-color: #393E46;
@@ -225,6 +225,7 @@
         font-size: 60%;
         white-space: wrap;
     }
+    .itemBtn {padding: 2%; margin-bottom: 2%;}
 }
 
 

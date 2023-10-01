@@ -3,6 +3,7 @@
 import Style from "./style.module.css";
 import "./style.css"
 import { useEffect } from 'react';
+import { Tooltip } from "../modules/tooltip";
 
 function map(val: number, minA: number, maxA: number, minB: number, maxB: number) {
     return minB + ((val - minA) * (maxB - minB)) / (maxA - minA);
@@ -41,7 +42,17 @@ export default function Main(){
         });
 	});
     return (<>
-        <div className={Style.card3d} id="a"><img className={Style.img} src="/res/icons/pag.png"></img></div>
-        <div className={Style.card3d} id="a"><img className={Style.img} src="/res/icons/clueless.png"></img></div>
+        <Tooltip header="PAG" info=":pag::pag::pag::pag::pag::pag::pag:">
+            <div className={Style.card3d} id="a"><img className={Style.img} src="/res/icons/pag.png"></img></div>
+        </Tooltip>
+
+        <Tooltip header="dsadsadAG" info=":pag::pag::pag:dsadsad:pag::pag::pag::pag:">
+            <div className={Style.card3d} id="a"><img className={Style.img} src="/res/icons/pag.png"></img></div>
+        </Tooltip>
+
         </>);
 }
+
+  
+
+

@@ -106,7 +106,7 @@ export async function loginUsername() {
         if (obj["status"] == "success"){
             setCookiee("accessToken", obj["accessToken"]);
             setCookiee("refreshToken", obj["refreshToken"]);
-            setTimeout(() => moveToPage("/"), 1000); 
+            setTimeout(() => moveToPage("/"), 100); 
         }
         else{
             if (obj["errorId"] == 5){

@@ -134,12 +134,10 @@ authApi.interceptors.response.use((response) => {
             
         } finally {
             release();
-            console.log(15, " ", error.url);
         }
         return authApi(originalRequest);
-    }else if (error?.response?.status == 403 || error?.response?.status == 400){
-        /*returnToLogin();*/
-        console.log(16, " ", error.url);
+    }else if (error?.response?.status == 403 || error?.response?.status == 400 || error?.response?.status == 404){
+        returnToLogin();
     }
     return Promise.reject(error);
 })

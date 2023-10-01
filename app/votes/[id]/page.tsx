@@ -43,7 +43,7 @@ export default function Home({ params }: { params: { id: string } }) {
 }
 
 var api = process.env.NEXT_PUBLIC_API_URL
-async function vote(){
+async function vote(setMainVoteFetch: { (value: React.SetStateAction<boolean>): void; (arg0: boolean): void; }){
 	
     let ele = document.getElementsByName('vote') as NodeListOf<HTMLInputElement>;
     
@@ -66,7 +66,8 @@ async function vote(){
             );
         if (String(answer.data["status"]) == "success"){
             console.log(":");
-            location.reload();
+            setMainVoteFetch(true);
+            //location.reload();
         }else{
             notifier.style.display = "block";
             notifier.textContent = answer.data["message"];
@@ -74,7 +75,7 @@ async function vote(){
     }
 }
 
-async function unvote(id: number){
+async function unvote(id: number, setMainVoteFetch: { (value: React.SetStateAction<boolean>): void; (arg0: boolean): void; }){
 
   var notifier = document.getElementById("notifier") as HTMLInputElement;
 
@@ -89,7 +90,7 @@ async function unvote(id: number){
               "vote_id": id
           });
       if (String(answer.data["status"]) == "success"){
-          location.reload();
+            setMainVoteFetch(true);
       }else{
           notifier.style.display = "block";
           notifier.textContent = answer.data["message"];
@@ -147,7 +148,10 @@ async function pin(id: number){
 function containsOnlySpaces(str: string) {
     return str.trim().length === 0;
 }
-async function sendComment(id: number){
+async function sendComment(id: number, 
+    setData: React.Dispatch<React.SetStateAction<any[]>>, 
+    setCurrentPage: React.Dispatch<React.SetStateAction<number>>, 
+    setFetching: React.Dispatch<React.SetStateAction<boolean>>){
     let mess = document.getElementById("createInput") as HTMLInputElement;
     if (!containsOnlySpaces(mess.value)){
         let url = "/comment"
@@ -157,8 +161,11 @@ async function sendComment(id: number){
             "text": mess.value
         });
         if (String(answer.data["status"]) == "success"){
-            location.reload();
-            
+            setData([]);
+            setCurrentPage(0);
+            setFetching(true);
+            mess.value = "";
+            mess.style.height = 'auto';
         }
         else if (String(answer.data["status"]) == "error"){
             alert(answer.data["message"]);
@@ -168,7 +175,10 @@ async function sendComment(id: number){
     
 }
 
-async function deleteComment(id: number){
+async function deleteComment(id: number, 
+                setData: React.Dispatch<React.SetStateAction<any[]>>, 
+                setCurrentPage: React.Dispatch<React.SetStateAction<number>>, 
+                setFetching: React.Dispatch<React.SetStateAction<boolean>>){
     let answer = confirm("Удалить? Точно? Отменить это действие будет невозможно!");
     if (answer){
         let url = "/deleteComment"
@@ -177,7 +187,9 @@ async function deleteComment(id: number){
             "id": id,
         });
         if (String(answer.data["status"]) == "success"){
-            location.reload();
+            setData([]);
+            setCurrentPage(0);
+            setFetching(true);
                 
         }
         else if (String(answer.data["status"]) == "error"){
@@ -307,7 +319,7 @@ function DynamicForm({id}){
                     </div>
                 </div>
                 {perms == "moderator" || comment.self ? 
-                <div className={commentStyle.deleteButton} onClick={() => deleteComment(comment.id)} title="Удалить комментарий">
+                <div className={commentStyle.deleteButton} onClick={() => {deleteComment(comment.id, setData, setCurrentPage, setFetching)}} title="Удалить комментарий">
                     <img className={commentStyle.binUp} src="/res/icons/buttons/bin_up.png"></img>
                     <img className={commentStyle.binDown} src="/res/icons/buttons/bin_down.png"></img>
                 </div> : ""}
@@ -333,7 +345,7 @@ function DynamicForm({id}){
                     <img className={styles.binpinA} id="binpinA" src="/res/icons/buttons/pushpin.svg" style={data.pinned ? {display: "block"} : {display: "none"}}></img>
                 </div>
                 : ""}
-                <div className={styles.deleteButton} onClick={() => deleteVote(id)} title="Удалить голосование">
+                <div className={styles.deleteButton} onClick={() => {deleteVote(id)}} title="Удалить голосование">
                     <img className={styles.binUp} src="/res/icons/buttons/bin_up.png"></img>
                     <img className={styles.binDown} src="/res/icons/buttons/bin_down.png"></img>
                 </div>
@@ -359,13 +371,13 @@ function DynamicForm({id}){
       {listItems}
       <p id="notifier" className={styles.notifier}></p>
       <p className={styles.notifier_two}>{data.alreadyVoted ? "Вы уже проголосовали" : ""}</p>
-      <button id="vote_btn" className={styles.vote_btn} onClick={data.alreadyVoted ? () => unvote(id) : vote}>{data.alreadyVoted ? "Отменить голос!" : "Проголосовать!"}</button>
+      <button id="vote_btn" className={styles.vote_btn} onClick={data.alreadyVoted ? () => unvote(id, setMainVoteFetch) : () => vote(setMainVoteFetch)}>{data.alreadyVoted ? "Отменить голос!" : "Проголосовать!"}</button>
       
       <h2 className={commentStyle.header}>Обсуждение:</h2>
         <div className={commentStyle.parent}>
             <div className={commentStyle.child}>
                 <textarea className={commentStyle.createInput} maxLength={2000} placeholder={'Отправить сообщение в голосование "' + data.name + '"'} id="createInput" onInput={autoResizeTextarea}></textarea>
-                <img src="/res/icons/buttons/send.png" className={commentStyle.sendimg} onClick={() => sendComment(id)}></img>
+                <img src="/res/icons/buttons/send.png" className={commentStyle.sendimg} onClick={() => {sendComment(id, setData, setCurrentPage, setFetching)}}></img>
             </div>
             {comments.length != 0 ? comments : <div className={commentStyle.blank}><p className={commentStyle.blankp}>Как-то пусто тут</p></div>}
             {dataa.length != totalCount && dataa.length != 0 ? <div className={commentStyle.loadrel}><img className={commentStyle.imgLoad} src="/res/icons/logo.png"></img></div> : ""}

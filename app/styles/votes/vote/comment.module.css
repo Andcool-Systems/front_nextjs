@@ -68,7 +68,8 @@
     margin: 0%;
     margin-top: 1.5%;
     margin-left: 38px;
-    white-space: pre-wrap
+    word-break: break-word;
+    white-space: normal;
 }
 
 .main{

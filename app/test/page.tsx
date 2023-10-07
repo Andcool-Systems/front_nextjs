@@ -1,58 +1,57 @@
 "use client";
 
-import Style from "./style.module.css";
-import "./style.css"
-import { useEffect } from 'react';
-import { Tooltip } from "../modules/tooltip";
+import React, { Component } from 'react';
+import Style from './style.module.css'; // Подключаем файл стилей
 
-function map(val: number, minA: number, maxA: number, minB: number, maxB: number) {
-    return minB + ((val - minA) * (maxB - minB)) / (maxA - minA);
+interface MenuState {
+  selectedOption: string | null;
+  selectedOptionIndex: number | null;
 }
 
-function Card3D(card, ev) {
-    let koef = 1.4;
-    let img = card.querySelector('img');
-    let imgRect = card.getBoundingClientRect();
-    let width = imgRect.width;
-    let height = imgRect.height;
-    let mouseX = ev.offsetX;
-    let mouseY = ev.offsetY;
-    let rotateY = map(mouseX, 0, width / koef, -30, 30);
-    let rotateX = map(mouseY, 0, height / koef, 30, -30);
-    let brightness = map(mouseY, 0, (height / koef) + 50, 1.5, 0.5);
-    
-    img.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-    img.style.filter = `brightness(${brightness})`;
+class Menu extends Component<{}, MenuState> {
+  constructor(props: {}) {
+    super(props);
+    this.state = {
+      selectedOption: null,
+      selectedOptionIndex: null,
+    };
   }
-export default function Main(){
-    useEffect(() => {
-		var cards = document.querySelectorAll('#a');
-        
-        cards.forEach((card) => {
-        card.addEventListener('mousemove', (ev) => {
-            Card3D(card, ev);
-        });
-        
-        card.addEventListener('mouseleave', (ev) => {
-            let img = card.querySelector('img');
-            
-            img.style.transform = 'rotateX(0deg) rotateY(0deg)';
-            img.style.filter = 'brightness(1)';
-        });
-        });
-	});
-    return (<>
-        <Tooltip header="PAG" info=":pag::pag::pag::pag::pag::pag::pag:">
-            <div className={Style.card3d} id="a"><img className={Style.img} src="/res/icons/pag.png"></img></div>
-        </Tooltip>
 
-        <Tooltip header="dsadsadAG" info=":pag::pag::pag:dsadsad:pag::pag::pag::pag:">
-            <div className={Style.card3d} id="a"><img className={Style.img} src="/res/icons/pag.png"></img></div>
-        </Tooltip>
+  handleOptionClick = (option: string, index: number) => {
+    this.setState({
+      selectedOption: option,
+      selectedOptionIndex: index,
+    });
+  }
 
-        </>);
+  render() {
+    const options = ['Option 1', 'Option 2', 'Option 3'];
+
+    return (
+      <div>
+        <h1>Выберите опцию:</h1>
+        <ul>
+          {options.map((option, index) => (
+            <li key={index}>
+              <a
+                href="#"
+                onClick={() => this.handleOptionClick(option, index)}
+                className={this.state.selectedOptionIndex === index ? Style.selected : ''}
+              >
+                {option}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <div className={Style.indicator_container}>
+          <div className={Style.indicator} style={{ left: `${this.state.selectedOptionIndex * 100}px` }}></div>
+        </div>
+        <p>Выбрано: {this.state.selectedOption}</p>
+      </div>
+    );
+  }
 }
 
-  
+export default Menu;
 
 

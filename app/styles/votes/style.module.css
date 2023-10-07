@@ -18,6 +18,9 @@
     margin: 0.5%;
     border-radius: 15px;
     margin-bottom: auto;
+    -webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
 }
 
 .progress{

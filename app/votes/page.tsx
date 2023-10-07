@@ -15,6 +15,7 @@ import { HydrationProvider, Server, Client } from "react-hydration-provider";
 //import { useSearchParams } from 'next/navigation'
 import { getCookie } from 'cookies-next';
 import styles from "../styles/votes/style.module.css";
+import filterStyle from "../styles/votes/filter.module.css";
 import "../styles/votes/style.css"
 import { authApi, returnToLogin } from "../APImanager.tsx"
 
@@ -39,6 +40,14 @@ export default function Home() {
 	  );
 }
 
+function setFilter(setFilterState, id: number, setData, setCurrentPage, setFetching, setTotalCount, setCostyl){
+	setFilterState(id);
+	setData([]);
+	setCurrentPage(0);
+	setFetching(true);
+	setTotalCount(1);
+	setCostyl((prevState: number) => prevState + 1);
+}
 var api = process.env.NEXT_PUBLIC_API_URL
 function Main(){
 	const [dataa, setData] = useState([]);
@@ -46,10 +55,12 @@ function Main(){
 	const [fetching, setFetching] = useState(true);
 	const [success, setSuccess] = useState(false);
 	const [totalCount, setTotalCount] = useState(1);
+	const [filterState, setFilterState] = useState(0);
+	const [costyl, setCostyl] = useState(0);
 
 	useEffect(() => {
 		if (fetching && dataa.length < totalCount){
-			const url = `/votes?page=${currentPage}&count=20`
+			const url = `/votes?page=${currentPage}&count=20&filter=${filterState}`
 			authApi.get(url
 				).then(response => {
 					if (response.data.status == "success"){
@@ -64,7 +75,7 @@ function Main(){
 				})
 				.finally(() => setFetching(false))
 		}
-	}, [fetching])
+	}, [fetching, costyl])
 
 	useEffect(() => {
 		document.addEventListener('scroll', scrollHandler);
@@ -117,8 +128,27 @@ function Main(){
 		
 		</div>
 	  );
+
+	const filterOptions = [
+		{id: 0, name:"Активные"}, 
+		{id: 1, name:"Созданные модераторами"}, 
+		{id: 2, name:"Закрытые"},
+		{id: 3, name:"Закреплённые"}]
+
+	const filterFields = filterOptions.map(field =>
+		<p key={field.id} onClick={() => setFilter(setFilterState, field.id, setData, setCurrentPage, setFetching, setTotalCount, setCostyl)} style={filterState == field.id ? {backgroundColor: "#222831"} : {}} className={filterStyle.field}>{field.name}</p>
+	);
+	
     return (
-    <>
+    <>	
+		<div className={filterStyle.parent}>
+			<div className={filterStyle.main}>
+				<div className={filterStyle.child}>
+					{filterFields}
+				</div>
+
+			</div>
+		</div>
         <ul className={styles.ul}>{dataa.length == 0 && !success ? <div className={styles.load}><img className={styles.img} src="/res/icons/logo.png"></img></div> : listItems}</ul>
 		{dataa.length != totalCount && dataa.length != 0 ? <div className={styles.loadrel}><img className={styles.img} src="/res/icons/logo.png"></img></div> : ""}
       

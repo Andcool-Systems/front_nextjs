@@ -2,11 +2,9 @@
 
 import React, { useState, CSSProperties } from 'react';
 import Style from "../styles/tooltip.module.css";
-import { useEffect } from 'react';
 
 
-
-export const Tooltip = ({ header, info, children }) => {
+export const Tooltip = ({ body, children }) => {
     const [showTooltip, setShowTooltip] = useState(false);
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [mf, setmf] = useState(false);
@@ -39,18 +37,15 @@ export const Tooltip = ({ header, info, children }) => {
     return (
         
       <div
-        
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onMouseMove={handleMouseMove}
-        style={{ display: 'inline-block' }}
       >
         
         {children}
         {(showTooltip && mf) && (
           <div className={Style.tooltipStyle} id="tooltip" style={{left: position.x + 10 + 'px', top: position.y + 10 + 'px'}} >
-            <h3 className={Style.h3}>{header}</h3>
-            <p className={Style.p}>{info}</p>
+            {body}
           </div>
         )
         }

@@ -1,17 +1,16 @@
-
-.card3d {
-    margin: 4px;
-    transform: scale(1);
-    perspective: 600px;
-}
+.selected {
+    background-color: #f0f0f0; /* Цвет фона выбранной опции */
+  }
   
-.card3d:hover {
-    z-index: 10;
-    transform: scale(1.3);
-}
+  .indicator_container {
+    position: relative;
+  }
   
-.card3d,
-.card3d .img {
-    transition: all 250ms ease-out;
-    width: 100px;
-}
+  .indicator {
+    width: 100px; /* Ширина квадратика (можете настроить по своему усмотрению) */
+    height: 20px; /* Высота квадратика (можете настроить по своему усмотрению) */
+    background-color: #007bff; /* Цвет квадратика */
+    position: absolute;
+    bottom: -5px; /* Регулируйте положение квадратика относительно текста */
+    transition: left 0.3s ease; /* Анимация изменения положения */
+  }

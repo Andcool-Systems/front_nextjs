@@ -84,7 +84,8 @@
 }
 .vote_btn{
     border: none;
-    padding: 2%;
+    padding: 1.5%;
+    font-size: 100%;
     background-color: #222831;
     color: #EEEEEE;
     border-radius: 5px;
@@ -221,10 +222,15 @@
 		opacity: 0;
 	}
 }
+.closed{
+    color: #ffffff;
+    margin: 0%;
+}
 
 @media(max-width: 425px){
     .vote{width: 90%; padding: 3%;}
     .votedCount{font-size: 90%;}
     .header{line-height: 100%; font-size: 140%;}
     .progress{margin-top: 9%; margin-bottom: 9%;}
+    .closed{font-size: 100%; margin-bottom: 3%;}
 }

@@ -23,7 +23,12 @@
     background-color: #222831;
     margin-bottom: 1%;
     color: #EEEEEE;
-    font-family: 'Manrope', sans-serif;
+    font-family: 'Manrope';
+    border: none;
+    -webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    padding: 0.5%;
 }
 
 .info{
@@ -34,7 +39,12 @@
     max-width: 70%;
     min-width: 50%;
     color: #EEEEEE;
-    font-family: 'Manrope', sans-serif;
+    font-family: 'Manrope';
+    border: none;
+    -webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    margin-bottom: 1%;
 }
 
 .inputField{
@@ -42,7 +52,11 @@
     color: #EEEEEE;
     border-radius: 5px;
     padding: 1%;
-    font-family: 'Manrope', sans-serif;
+    font-family: 'Manrope';
+    border: none;
+    -webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
 }
 
 .removeButt{
@@ -51,7 +65,10 @@
     border-radius: 5px;
     margin-left: 0.5%;
     cursor: pointer;
-    font-family: 'Manrope', sans-serif;
+    font-family: 'Manrope';
+    border: none;
+    width: 30px;
+    height: 32px;
 }
 
 .addBtn{
@@ -60,7 +77,11 @@
     border-radius: 5px;
     cursor: pointer;
     padding: 1%;
-    font-family: 'Manrope', sans-serif;
+    font-family: 'Manrope';
+    border: none;
+    -webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
     
 }
 .submitBtn{
@@ -68,24 +89,24 @@
     color: #EEEEEE;
     border-radius: 5px;
     cursor: pointer;
-    padding: 2%;
+    padding: 1%;
     margin-top: 2%;
     font-size: 100%;
-    font-family: 'Manrope', sans-serif; 
+    font-family: 'Manrope'; 
     border: none;
     -webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
     box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
 }
 .notifier{
-    font-family: 'Manrope', sans-serif; 
+    font-family: 'Manrope'; 
     color: rgb(221, 0, 0);
     display: none;
     margin: 0%;
 }
 .timeText{
     margin:0%;
-    font-family: 'Manrope', sans-serif;
+    font-family: 'Manrope';
     color: #EEEEEE;
 }
 .hr{
@@ -102,4 +123,10 @@
     -webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
     box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+}
+
+.h2{
+    color:#EEEEEE;
+    margin: 0%;
+    margin-bottom: 2%;
 }

@@ -1,0 +1,49 @@
+.field{
+    display: inline-block;
+    padding: 1.5%;
+    margin: 0%;
+    white-space: nowrap;
+    color: #EEEEEE;
+    text-align: center;
+    border-radius: 5px;
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+    cursor: pointer;
+    font-family: 'Manrope';
+
+    -webkit-transition: color 0.1s linear;
+    -moz-transition: color 0.1s linear;
+    -o-transition: color 0.1s linear;
+    transition: color 0.1s linear;
+}
+
+.field:hover{
+    color:#00ADB5;
+}
+
+.main{
+    background-color: #393E46;
+    padding: 10px;
+    margin-top: 1%;
+    border-radius: 10px;
+    -webkit-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 1px 8px 0px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+    width: 570px;
+    align-items: center;
+
+
+}
+
+.parent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.child{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

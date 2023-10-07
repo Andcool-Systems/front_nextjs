@@ -1,7 +1,7 @@
 "use client";
 let currentPage = 0;
 import Script from "next/script"
-import {loginUsername, login, setCookiee } from "./script.tsx"
+import {loginUsername, setCookiee } from "./script.tsx"
 //import {updpass, updnick} from "./events"
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -9,6 +9,7 @@ import styles from "../styles/login/style.module.css";
 import "../styles/login/style.css"
 import { Accordion, AccordionItem as Item } from "@szhsin/react-accordion";
 import { moveToPage } from "./pages"
+import { useSearchParams } from 'next/navigation'
 
 
 var loginFlag = false;
@@ -20,90 +21,92 @@ function containsOnlySpaces(str) {
   }
 export default function Home() {
   //const [lastSuccess, setLastSuccess] = useState({});
+    const searchParams = useSearchParams()
+    let redirect_url = (searchParams.get("redirect_url") != null ? searchParams.get("redirect_url") : "/");
 
-  function updpass(){
-    var username = document.getElementById("password") as HTMLInputElement;
-        
-    if (username.value != ""){
-        const usr = document.querySelector("#passwordSmall") as Element;
-        usr.textContent = "";
-    }else{
-        const usr = document.querySelector("#passwordSmall") as Element;
-        usr.textContent = "Введите пароль";
+    function updpass(){
+        var username = document.getElementById("password") as HTMLInputElement;
+            
+        if (username.value != ""){
+            const usr = document.querySelector("#passwordSmall") as Element;
+            usr.textContent = "";
+        }else{
+            const usr = document.querySelector("#passwordSmall") as Element;
+            usr.textContent = "Введите пароль";
+        }
     }
-  }
 
-  function updpasscode(){
-    var username = document.getElementById("passwordCode") as HTMLInputElement;
-        
-    if (username.value != ""){
-        const usr = document.querySelector("#passwordSmallcode") as Element;
-        usr.textContent = "";
-    }else{
-        const usr = document.querySelector("#passwordSmallcode") as Element;
-        usr.textContent = "Введите пароль";
+    function updpasscode(){
+        var username = document.getElementById("passwordCode") as HTMLInputElement;
+            
+        if (username.value != ""){
+            const usr = document.querySelector("#passwordSmallcode") as Element;
+            usr.textContent = "";
+        }else{
+            const usr = document.querySelector("#passwordSmallcode") as Element;
+            usr.textContent = "Введите пароль";
+        }
     }
-  }
       
-  function updnick(){
-      var nick = document.getElementById("nick") as HTMLInputElement;
-      if (nick.value != ""){
-          const nickn = document.querySelector("#nickSmall") as Element;
-          nickn.textContent = "";
-      }else{
-          const nickn = document.querySelector("#nickSmall") as Element;
-          nickn.textContent = "Введите свой никнейм";
-      }
-      if (loginFlag == false){
-          const form = document.getElementById("nick") as Element;
-          form.addEventListener("focusout", (event) => {
-              parseNick();
-          });
-          loginFlag = true;
-      }
+    function updnick(){
+        var nick = document.getElementById("nick") as HTMLInputElement;
+        if (nick.value != ""){
+            const nickn = document.querySelector("#nickSmall") as Element;
+            nickn.textContent = "";
+        }else{
+            const nickn = document.querySelector("#nickSmall") as Element;
+            nickn.textContent = "Введите свой никнейм";
+        }
+        if (loginFlag == false){
+            const form = document.getElementById("nick") as Element;
+            form.addEventListener("focusout", (event) => {
+                parseNick();
+            });
+            loginFlag = true;
+        }
 
-  }
+    }
 
-  function updcode(){
-    var nick = document.getElementById("code") as HTMLInputElement;
-    if (nick.value != ""){
-        const nickn = document.querySelector("#codeSmall") as Element;
-        nickn.textContent = "";
-    }else{
-        const nickn = document.querySelector("#codeSmall") as Element;
-        nickn.textContent = "Введите код";
-    }
-    if (loginFlagCode == false){
-        const form = document.getElementById("code") as Element;
-        form.addEventListener("focusout", (event) => {
-            parseCode();
-        });
-        loginFlagCode = true;
-    }
+    function updcode(){
+        var nick = document.getElementById("code") as HTMLInputElement;
+        if (nick.value != ""){
+            const nickn = document.querySelector("#codeSmall") as Element;
+            nickn.textContent = "";
+        }else{
+            const nickn = document.querySelector("#codeSmall") as Element;
+            nickn.textContent = "Введите код";
+        }
+        if (loginFlagCode == false){
+            const form = document.getElementById("code") as Element;
+            form.addEventListener("focusout", (event) => {
+                parseCode();
+            });
+            loginFlagCode = true;
+        }
 
 }
 
-  async function parseNick(){
-      var nick = document.getElementById("nick") as HTMLInputElement;
-      var url = "https://api.minetools.eu/uuid/" + nick.value;
-      var data = await axios.get(url);
-      var obj = data.data;
-      const nickid = document.querySelector("#nickSmallid") as Element;
-      const nickn = document.querySelector("#nickSmall") as Element;
-      console.log(obj);
-      if (obj["status"] == "ERR"){
-          nickn.textContent = "Никнейм не найден";
-          nickid.textContent = "";
-      }
-      else 
-          if (obj["name"] != undefined){
-                nick.value = obj["name"];
-                nickid.textContent = "uuid: " + obj["id"];
-                //setStartVal(namemcResponse);
-                //setUser(obj);
+    async function parseNick(){
+        var nick = document.getElementById("nick") as HTMLInputElement;
+        var url = "https://api.minetools.eu/uuid/" + nick.value;
+        var data = await axios.get(url);
+        var obj = data.data;
+        const nickid = document.querySelector("#nickSmallid") as Element;
+        const nickn = document.querySelector("#nickSmall") as Element;
+        console.log(obj);
+        if (obj["status"] == "ERR"){
+            nickn.textContent = "Никнейм не найден";
+            nickid.textContent = "";
+        }
+        else 
+            if (obj["name"] != undefined){
+                    nick.value = obj["name"];
+                    nickid.textContent = "uuid: " + obj["id"];
+                    //setStartVal(namemcResponse);
+                    //setUser(obj);
 
-          }else{nickn.textContent = "Никнейм не найден";}
-  }
+            }else{nickn.textContent = "Никнейм не найден";}
+    }
 
   async function parseCode(){
     const nickn = document.querySelector("#codeSmall") as Element;
@@ -131,7 +134,7 @@ export default function Home() {
             if (data.data["status"] == "success"){
                 setCookiee("accessToken", data.data["accessToken"]);
                 setCookiee("refreshToken", data.data["refreshToken"]);
-                setTimeout(() => moveToPage("/"), 1000); 
+                setTimeout(() => moveToPage(redirect_url), 100); 
             }
             else{
                 const errmess = document.querySelector("#registerError") as Element;
@@ -177,7 +180,7 @@ export default function Home() {
                     <a className={styles.small_mess} id="passwordSmall">Введите пароль</a>
                     
                     
-                    <button onClick={ loginUsername } className={styles.button}>Войти</button>
+                    <button onClick={ () => loginUsername(redirect_url) } className={styles.button}>Войти</button>
                 </div>
             </AccordionItem>
             <AccordionItem header="Зарегистрироваться">

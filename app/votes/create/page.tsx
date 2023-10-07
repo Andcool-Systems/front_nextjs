@@ -126,6 +126,7 @@ function DynamicForm(){
 
   return (
     <div className={styles.create}>
+        <h2 className={styles.h2}>Создать голосование</h2>
         <input
             id='header'
             className={styles.header}

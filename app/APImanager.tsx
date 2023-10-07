@@ -55,56 +55,47 @@ async function getNewTokens(){
         } else{
             return obj;
         }   
-    }catch (error) {console.log(error); return false;}
+    }catch (error) {return false;}
     
        
 }
 export function returnToLogin(){
     if (window.location.pathname != "/"){
-        moveToPage("/login/");
+        let query = window.location.pathname
+        moveToPage("/login?redirect_url=" + query);
     } 
 }
 const tokenMutex = new Mutex();
 
 authApi.interceptors.request.use(async (config) => {
-    console.log("start", "", config.url);
     const accessToken = getCookie("accessToken");
-    console.log(accessToken);
     if (accessToken){
-        console.log(1, " ", config.url);
         const tokenExpires = checkAccess(accessToken);
         if (!tokenExpires){
-            console.log(2, " ", config.url);
             try{
                 const release = await tokenMutex.acquire();
                 try{
-                    console.log(3, " ", config.url);
                     const currentAccess = getCookie("accessToken");
-                    console.log(currentAccess)
-                    if (currentAccess != accessToken) {config.headers["Authorization"] = `Bearer ${currentAccess}`; console.log(4, " ", config.url);}
+                    if (currentAccess != accessToken) {config.headers["Authorization"] = `Bearer ${currentAccess}`}
                     else{
                         const newAccess = await getNewTokens();
                         if (newAccess != false) {
-                            console.log(5, " ", config.url);
                             config.headers["Authorization"] = `Bearer ${newAccess['accessToken']}`;
                             if (newAccess["status"] == "error"){/*if (newAccess["errorId"] == 4) returnToLogin();*/}
                         }else{/*returnToLogin();*/}
                     }
                 } finally {
-                    console.log(6, " ", config.url);
                     release();
                 }
             } catch (error) {}
-        } else {config.headers["Authorization"] = `Bearer ${accessToken}`; console.log(7, " ", config.url);}
+        } else {config.headers["Authorization"] = `Bearer ${accessToken}`}
     }else{
         try{
-            console.log(8, " ", config.url);
             const newAccess = await getNewTokens();
             if (newAccess != false) {
-                console.log(9, " ", config.url);
                 config.headers["Authorization"] = `Bearer ${newAccess['accessToken']}`;
                 if (newAccess["status"] == "error"){/*if (newAccess["errorId"] == 4) returnToLogin();*/}
-            }else{returnToLogin(); console.log(10, " ", config.url);}
+            }else{returnToLogin();}
         }catch (error) {}
     }
     return config;
@@ -121,15 +112,13 @@ authApi.interceptors.response.use((response) => {
         const accessToken = getCookie("accessToken");
         try{
             const currentAccess = getCookie("accessToken");
-            if (currentAccess != accessToken) {authApi.defaults.headers.common["Authorization"] = `Bearer ${currentAccess}`; console.log(11, " ", error.url);}
+            if (currentAccess != accessToken) {authApi.defaults.headers.common["Authorization"] = `Bearer ${currentAccess}`}
             else{
-                console.log(12, " ", error.url);
                 const newAccess = await getNewTokens();
                 if (newAccess != false){
-                    console.log(13, " ", error.url);
                     authApi.defaults.headers.common["Authorization"] = `Bearer ${newAccess['accessToken']}`;
-                    if (newAccess["status"] == "error"){/*if (newAccess["errorId"] == 4) returnToLogin();*/}
-                }else{/*returnToLogin();*/ console.log(14, " ", error.url);}
+                    if (newAccess["status"] == "error"){if (newAccess["errorId"] == 4) returnToLogin();}
+                }else{returnToLogin();}
             }
             
         } finally {

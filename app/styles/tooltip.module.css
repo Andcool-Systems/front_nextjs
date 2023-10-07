@@ -3,21 +3,37 @@
     background-color: #333;
     color: #fff;
     border-radius: 5px;
-    padding: 1%;
-    z-index: 999;
+    padding: 0.5%;
+    z-index: 9999;
     cursor: pointer;
     border-top-left-radius: 0%;
-    max-width: 30%;
+    
     opacity: .9;
 }
+
 
 .h3{
     margin-top: 0%;
     margin-bottom: 0%;
-    font-size: 120%;
+    font-size: 100%;
 }
 
 .p{
     margin: 0%;
+    font-size: 90%;
     margin-top: 1.5%;
+}
+.video{
+    position: relative;
+    width: 300px;
+    margin-top: 1%;
+}
+@media(max-width: 425px){
+    .tooltipStyle{max-width: 80%; padding: 2%}
+    .video{
+        width: 150px;
+    }
+    .h3{font-size: 90%;}
+    
+    .p{font-size: 80%;}
 }

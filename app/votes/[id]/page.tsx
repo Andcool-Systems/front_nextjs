@@ -20,10 +20,29 @@ import styles from "../../styles/votes/vote/style.module.css";
 import commentStyle from "../../styles/votes/vote/comment.module.css";
 import "../../styles/votes/vote/style.css"
 import { authApi, returnToLogin } from "../../APImanager.tsx"
- 
+import { Tooltip } from "../../modules/tooltip";
 
 const queryClient = new QueryClient();
 
+function map(val: number, minA: number, maxA: number, minB: number, maxB: number) {
+    return minB + ((val - minA) * (maxB - minB)) / (maxA - minA);
+}
+
+function Card3D(card, ev) {
+    let koef = 1.4;
+    let img = card.querySelector('img');
+    let imgRect = card.getBoundingClientRect();
+    let width = imgRect.width;
+    let height = imgRect.height;
+    let mouseX = ev.offsetX;
+    let mouseY = ev.offsetY;
+    let rotateY = map(mouseX, 0, width / koef, -30, 30);
+    let rotateX = map(mouseY, 0, height / koef, 30, -30);
+    let brightness = map(mouseY, 0, (height / koef) + 50, 1.5, 0.5);
+    
+    img.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    img.style.filter = `brightness(${brightness})`;
+  }
 export default function Home({ params }: { params: { id: string } }) {
     return (
 		<>
@@ -151,7 +170,8 @@ function containsOnlySpaces(str: string) {
 async function sendComment(id: number, 
     setData: React.Dispatch<React.SetStateAction<any[]>>, 
     setCurrentPage: React.Dispatch<React.SetStateAction<number>>, 
-    setFetching: React.Dispatch<React.SetStateAction<boolean>>){
+    setFetching: React.Dispatch<React.SetStateAction<boolean>>,
+    setCostyl: React.Dispatch<React.SetStateAction<number>>){
     let mess = document.getElementById("createInput") as HTMLInputElement;
     if (!containsOnlySpaces(mess.value)){
         let url = "/comment"
@@ -164,11 +184,16 @@ async function sendComment(id: number,
             setData([]);
             setCurrentPage(0);
             setFetching(true);
+            setCostyl((prevState: number) => prevState + 1);
             mess.value = "";
             mess.style.height = 'auto';
+
         }
         else if (String(answer.data["status"]) == "error"){
-            alert(answer.data["message"]);
+            //alert(answer.data["message"]);
+            var notifier = document.getElementById("notifierComment") as HTMLInputElement;
+            notifier.style.display = "block";
+            notifier.textContent = answer.data["message"];
         }
     }
 	
@@ -178,7 +203,8 @@ async function sendComment(id: number,
 async function deleteComment(id: number, 
                 setData: React.Dispatch<React.SetStateAction<any[]>>, 
                 setCurrentPage: React.Dispatch<React.SetStateAction<number>>, 
-                setFetching: React.Dispatch<React.SetStateAction<boolean>>){
+                setFetching: React.Dispatch<React.SetStateAction<boolean>>,
+                setCostyl: React.Dispatch<React.SetStateAction<number>>){
     let answer = confirm("Удалить? Точно? Отменить это действие будет невозможно!");
     if (answer){
         let url = "/deleteComment"
@@ -190,6 +216,7 @@ async function deleteComment(id: number,
             setData([]);
             setCurrentPage(0);
             setFetching(true);
+            setCostyl((prevState: number) => prevState + 1);
                 
         }
         else if (String(answer.data["status"]) == "error"){
@@ -199,11 +226,22 @@ async function deleteComment(id: number,
 }
 
 function autoResizeTextarea() {
+    var notifier = document.getElementById("notifierComment") as HTMLInputElement;
+    notifier.style.display = "none";
+    notifier.textContent = "";
     const textarea = document.getElementById('createInput');
     textarea.style.height = 'auto'; // Сначала сбрасываем высоту на auto
     textarea.style.height = `${textarea.scrollHeight}px`; // Устанавливаем высоту равной высоте содержимого
 }
-
+const formatText = (text) => {
+    const lines = text.split('\n');
+    return lines.map((line, index) => (
+      <React.Fragment key={index}>
+        {line}
+        <br />
+      </React.Fragment>
+    ));
+  };
 function DynamicForm({id}){
   
   	//const {data, isLoading, isError} = useQuery(['votes', id], loadVote);
@@ -217,7 +255,8 @@ function DynamicForm({id}){
                                         "info": "",
                                         "nickname": "",
                                         "uuid": "",
-                                        "message": ""
+                                        "message": "",
+                                        "overdated": false
                                         });
     const [mainVoteFetch, setMainVoteFetch] = useState(true);
 
@@ -226,6 +265,7 @@ function DynamicForm({id}){
     const [fetching, setFetching] = useState(true);
     const [success, setSuccess] = useState(false);
     const [totalCount, setTotalCount] = useState(1);
+    const [costyl, setCostyl] = useState(0);
 
 
     useEffect(() => {
@@ -262,7 +302,7 @@ function DynamicForm({id}){
 				})
 				.finally(() => setFetching(false))
 		}
-	}, [fetching])
+	}, [fetching, costyl])
 
 	useEffect(() => {
 		document.addEventListener('scroll', scrollHandler);
@@ -319,13 +359,13 @@ function DynamicForm({id}){
                     </div>
                 </div>
                 {perms == "moderator" || comment.self ? 
-                <div className={commentStyle.deleteButton} onClick={() => {deleteComment(comment.id, setData, setCurrentPage, setFetching)}} title="Удалить комментарий">
+                <div className={commentStyle.deleteButton} onClick={() => {deleteComment(comment.id, setData, setCurrentPage, setFetching, setCostyl)}} title="Удалить комментарий">
                     <img className={commentStyle.binUp} src="/res/icons/buttons/bin_up.png"></img>
                     <img className={commentStyle.binDown} src="/res/icons/buttons/bin_down.png"></img>
                 </div> : ""}
             </div>
       		<div className={commentStyle.main}>
-                <p className={commentStyle.p}>{comment.text}</p>
+                <p className={commentStyle.p}>{formatText(comment.text)}</p>
             </div>
       
       
@@ -356,9 +396,10 @@ function DynamicForm({id}){
     )
 	return (
     <div className={styles.vote}>
+        {data.overdated && <h2 className={styles.closed}>Голосование закрыто!</h2>}
         <div className={styles.moderHeader}>{perms == "moderator" || data.self ? moder : ""}</div>
         <h2 className={styles.header}>{data.name}</h2>
-        <p className={styles.info}>{data.info}</p>
+        <p className={styles.info}>{formatText(data.info)}</p>
         <div className={styles.author}>
 					<img
                         className={styles.img}
@@ -370,15 +411,16 @@ function DynamicForm({id}){
       <hr className={styles.hr}></hr>
       {listItems}
       <p id="notifier" className={styles.notifier}></p>
-      <p className={styles.notifier_two}>{data.alreadyVoted ? "Вы уже проголосовали" : ""}</p>
-      <button id="vote_btn" className={styles.vote_btn} onClick={data.alreadyVoted ? () => unvote(id, setMainVoteFetch) : () => vote(setMainVoteFetch)}>{data.alreadyVoted ? "Отменить голос!" : "Проголосовать!"}</button>
+      <p className={styles.notifier_two}>{data.alreadyVoted && !data.overdated ? "Вы уже проголосовали" : ""}</p>
+      {!data.overdated && <button id="vote_btn" className={styles.vote_btn} onClick={data.alreadyVoted ? () => unvote(id, setMainVoteFetch) : () => vote(setMainVoteFetch)}>{data.alreadyVoted ? "Отменить голос!" : "Проголосовать!"}</button>}
       
       <h2 className={commentStyle.header}>Обсуждение:</h2>
         <div className={commentStyle.parent}>
             <div className={commentStyle.child}>
-                <textarea className={commentStyle.createInput} maxLength={2000} placeholder={'Отправить сообщение в голосование "' + data.name + '"'} id="createInput" onInput={autoResizeTextarea}></textarea>
-                <img src="/res/icons/buttons/send.png" className={commentStyle.sendimg} onClick={() => {sendComment(id, setData, setCurrentPage, setFetching)}}></img>
+                <textarea className={commentStyle.createInput} maxLength={2000} placeholder={'Отправить сообщение в голосование "' + data.name + '"'} id="createInput" onInput={autoResizeTextarea} disabled={data.overdated}></textarea>
+                <img src="/res/icons/buttons/send.png" className={commentStyle.sendimg} onClick={() => {sendComment(id, setData, setCurrentPage, setFetching, setCostyl)}}></img>
             </div>
+            <p id="notifierComment" className={styles.notifier}></p>
             {comments.length != 0 ? comments : <div className={commentStyle.blank}><p className={commentStyle.blankp}>Как-то пусто тут</p></div>}
             {dataa.length != totalCount && dataa.length != 0 ? <div className={commentStyle.loadrel}><img className={commentStyle.imgLoad} src="/res/icons/logo.png"></img></div> : ""}
         </div>
